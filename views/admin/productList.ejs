@@ -1,0 +1,73 @@
+<%- include('../adminLayout/adminheader.ejs') %>
+<%- include('../adminLayout/adminSidebar.ejs') %>
+<%- include('../adminLayout/adminNavbar.ejs') %>
+
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="card-body">
+              <h2 class="card-title" >PRODUCT LIST</h2>
+              <a type="button" class="btn btn-secondary w-60" style="margin-top: 30px; margin-left: 10px;"
+               data-bs-target="#addproduct" href="/admin/addProduct">
+              <i title="Add Product" class="fa fa-plus"></i>ADD PRODUCTS </a>
+    
+              <div class="table-responsive" style="padding-top: 20px;" >
+                <table class="table table-dark" >
+                  <thead >
+                    <tr>
+                        <th>NO</th>
+                      <th>IMAGE</th>
+                      <th>PRODUCTNAME</th>
+                      <th>CATEGORY</th>
+                      <th>STOCK</th>
+                      <th>PRICE</th>
+                      <th style="padding-left: 50px;">ACTION</th>
+                      
+                     
+                    </tr>
+                </thead>
+                <% if (product.length > 0) { %>
+                    <% for (let i = 0; i < product.length; i++) { %>
+                        <tr>
+                            <td><%= i + 1 %></td>
+                            <td>
+                                <% for(let j=0;j<1;j++){ %>
+                                  <img style="width:30px" ; height="50px"
+                                    src="/adminAssets/adminImages/<%= product[i].image[j] %>" alt="No image">
+                                  <% } %>
+                             </td>
+                            <td><%= product[i].productName %></td>
+                            <td><%= product[i].categoryName %></td>
+                            <td><%= product[i].stock %></td>
+                            <td><%= product[i].price %></td>
+
+                            <td>
+                                <a class="btn btn-success" href="/admin/editProduct/<%= product[i]._id%>">Edit</a>
+                           
+                         
+                                <a class="btn btn-danger" href="/admin/delete-product?id=<%= product[i]._id %>" onclick="return confirm('Are you sure you want to Delete <%= product[i].productName %>?')">Delete</a>
+                            </td>
+                           
+                        </tr>
+                    <% } %>
+                <% } %>
+                
+            </div>
+            <div class=" d-flex justify-content-center align-items-center" id="pagination">
+              <div class="pagination__option">
+                  <%for(let j=1;j<=totalPages;j++){%>
+                      <a href="?page=<%=j%>">
+                          <%=j%>
+                      </a>
+                      <%}%>
+                          <a href=""><i class="fa fa-angle-right"></i></a>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+ 
+<%- include('../adminLayout/adminFooter.ejs') %>

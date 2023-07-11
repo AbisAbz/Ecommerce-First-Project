@@ -1,0 +1,94 @@
+<%- include('../userLayout/userHeader.ejs') %>
+<%- include('../userLayout/userNavbar.ejs') %>
+
+<main class="main">
+    <div class="page-header text-center" style="background-image: url('userAssets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h1 class="checkout-title"><strong>My Address</strong></h1><!-- End .checkout-title -->
+        </div><!-- End .container -->
+    </div><!-- End .page-header -->
+    <section class="checkout">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/SHOP">Shop</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+
+        <div class="page-content">
+            <div class="dashboard">
+                <div class="container">
+                    <div class="row">
+                        <aside class="col-md-4 col-lg-3">
+                            <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link "  href="/profile" >user profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"  href="/orders" >Orders</a>
+                                </li>
+                                <!-- <li class="nav-item">
+                                    <a class="nav-link"  href="/downloads">Downloads</a>
+                                </li> -->
+                                <li class="nav-item">
+                                    <a class="nav-link"  href="/address">Adresses</a>
+                                </li>
+                                <!-- <li class="nav-item">
+                                    <a class="nav-link" href="/account">Account Details</a>
+                                </li> -->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/logout">Sign Out</a>
+                                </li>
+                            </ul>
+                        </aside><!-- End .col-lg-3 -->
+    
+                        <div class="col-md-8 col-lg-9">
+                            <div class="tab-content">
+
+                                <div class="col-lg-9">
+                               
+                                    <div class="row">
+                                      <div class="col-lg-12">
+                                       
+                                  
+                                        <% if (address && address.length > 0) { %>
+                                          <% address.forEach((value, index) => { %>
+                                            <strong>Name: </strong><%= value.userName %><br>
+                                            <strong>Phone:</strong> <%= value.mobile %><br>
+                                            <strong>Address:</strong> <%= value.houseName %><br>
+                                            <strong>City:</strong> <%= value.city %><br>
+                                            <strong>State:</strong> <%= value.state %><br>
+                                            <strong>PIN:</strong> <%= value.pincode %><br>
+                                            <strong>Landmark:</strong> <%= value.landmark %><br>
+                                            <br>
+                                            <div style="display: flex;">
+                                              <input type="hidden" value="<%= index %>" name="index">
+                                             
+                                            </div>
+                                            <hr>
+                                          <% }) %>
+                                        <% } %>
+                                      </div>    
+                                    </div>
+                                  </div>
+                            </div><!-- End .col-lg-12 -->                        
+                        </div><!-- End .row -->
+                    </div><!-- End .container -->
+                    </div>
+                </div>
+            </div>
+
+
+    </section>
+  
+  </main>
+
+ 
+
+
+
+
+<%- include('../userLayout/userFooter.ejs') %>

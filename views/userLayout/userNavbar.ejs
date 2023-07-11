@@ -1,0 +1,100 @@
+<body>
+    <div class="page-wrapper">
+        <header class="header header-6">
+            <div class="header-middle">
+                <div class="container">
+                    <div class="header-left">
+                        <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
+                            <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                            <form action="#" method="get">
+                                <div class="header-search-wrapper search-wrapper-wide">
+                                    <label for="q" class="sr-only">Search</label>
+                                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..." required>
+                                </div><!-- End .header-search-wrapper -->
+                            </form>
+                        </div><!-- End .header-search -->
+                    </div>
+                    <div class="header-right">
+                        <a href="wishlist.html" class="wishlist-link">
+                            <i class="icon-heart-o"></i>
+                            <span class="wishlist-txt">My Wishlist</span>
+                        </a>
+
+                        <div class="dropdown cart-dropdown">
+                            <a href="/cart" class="dropdown-toggle" role="button" >
+                                <i class="icon-shopping-cart"></i>
+                               
+                            </a>
+
+                         
+
+                        </div><!-- End .cart-dropdown -->
+                        <div class="dropdown cart-dropdown">
+                        <% if (session==null) { %>
+                         
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <i class="icon-user"></i>
+                               
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" style="background-color: black; border-radius: 5px;">
+                                <div class="dropdown-cart-action">
+                                    <a href="/login" class="btn btn-primary">Login</a>
+                                    <a href="/register" class="btn btn-outline-primary-2">Register</a>     
+                                   
+                                </div><!-- End .dropdown-cart-total -->
+                            </div><!-- End .dropdown-menu -->
+                            <% 
+                        }else{
+                             %>
+                             <a href="#" class="dropdown-logos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" >
+                                <i class="icon-user " ></i>
+                              <strong >  <%= user.name  %> </strong>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" style="border-radius: 5px; background-color: black;"> 
+                                <div class="dropdown-cart-action">
+                                    <a href="/profile" class="btn btn-primary">PROFILE</a>
+                                    <a href="/logout" class="btn btn-outline-primary-2">LOGOUT</a>     
+                                   
+                                </div><!-- End .dropdown-cart-total -->
+                            </div><!-- End .dropdown-menu -->
+                                
+                       <% 
+                    }
+                    %>  
+
+                        </div>
+                    </div>
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+
+           <div class="header-bottom sticky-header">
+    <div class="container">
+        <div class="header-left">
+            <nav class="main-nav">
+                <div class="menu-wrapper">
+                    <ul class="menu sf-arrows sf-js-enabled">
+                        <li>
+                            <a href="index.html">
+                                <img src="/userAssets/images/munna agro.png" width="50" height="80">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/allProducts" style="padding-left: 30px;">Shop</a>
+                        </li>
+                    </ul><!-- End .menu -->
+                </div><!-- End .menu-wrapper -->
+            </nav><!-- End .main-nav -->
+        </div><!-- End .header-left -->
+    </div><!-- End .container -->
+</div>
+
+
+
+
+        </header><!-- End .header -->

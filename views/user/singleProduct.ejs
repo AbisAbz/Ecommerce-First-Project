@@ -1,0 +1,269 @@
+    <%- include('../userLayout/userHeader.ejs') %>
+    <%- include('../userLayout/userNavbar.ejs') %>
+
+
+
+
+<main class="main">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+        <div class="container d-flex align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/allProducts">Products</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Default</li>
+            </ol>
+
+            <nav class="product-pager ml-auto" aria-label="Product">
+                <a class="product-pager-link product-pager-prev" href="#" aria-label="Previous" tabindex="-1">
+                    <i class="icon-angle-left"></i>
+                    <span>Prev</span>
+                </a>
+
+                <a class="product-pager-link product-pager-next" href="#" aria-label="Next" tabindex="-1">
+                    <span>Next</span>
+                    <i class="icon-angle-right"></i>
+                </a>
+            </nav><!-- End .pager-nav -->
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="container">
+            <div class="product-details-top">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="product-gallery product-gallery-vertical">
+                            <div class="row">
+                                <figure class="product-main-image">
+                                    <img id="product-zoom"
+                                    src="/adminAssets/adminImages/productImage/<%= product.image[0]%>">
+
+                                <a href="/adminAssets/adminImages/productImage/<%= product.image[0]%>" id="btn-product-gallery" class="btn-product-gallery">
+                                    <i class="icon-arrows"></i>
+                                </a>
+                                </figure><!-- End .product-main-image -->
+
+                                <div id="product-zoom-gallery" class="product-image-gallery">
+                                    <a class="product-gallery-item active" href="/adminAssets/adminImages/productImage/<%= product.image[0]%>" data-image="/adminAssets/adminImages/productImage/<%= product.image[0]%>"
+                                        data-zoom-image="">
+                                        <img src="/adminAssets/adminImages/productImage/<%= product.image[0]%>"
+                                            alt="product side">
+                                    </a>
+
+                                    <a class="product-gallery-item" href="/adminAssets/adminImages/productImage/<%= product.image[1]%>"
+                                        data-image="/adminAssets/adminImages/productImage/<%= product.image[1]%>"
+                                        data-zoom-image="/adminAssets/adminImages/productImage/<%= product.image[1]%>">
+                                        <img src="/adminAssets/adminImages/productImage/<%= product.image[1]%>"
+                                            alt="product cross">
+                                    </a>
+
+                                    <a class="product-gallery-item" href="/adminAssets/adminImages/productImage/<%= product.image[2]%>"
+                                        data-image="/adminAssets/adminImages/productImage/<%= product.image[2]%>"
+                                        data-zoom-image="/adminAssets/adminImages/productImage/<%= product.image[2]%>">
+                                        <img src="/adminAssets/adminImages/productImage/<%= product.image[2]%>"
+                                            alt="product with model">
+                                    </a>
+
+                                    <a class="product-gallery-item" href="/adminAssets/adminImages/productImage/<%= product.image[3]%>"
+                                        data-image="/adminAssets/adminImages/productImage/<%= product.image[3]%>"
+                                        data-zoom-image="/adminAssets/adminImages/productImage/<%= product.image[3]%>">
+                                        <img src="/adminAssets/adminImages/productImage/<%= product.image[3]%>"
+                                            alt="product back">
+                                    </a>
+                                </div><!-- End .product-image-gallery -->
+                            </div><!-- End .row -->
+                        </div><!-- End .product-gallery -->
+                    </div><!-- End .col-md-6 -->
+
+                    <div class="col-md-6">
+                        <div class="product-details">
+                            <h1 class="product-title"><%= product.productName %></h1><!-- End .product-title -->
+
+                            <div class="ratings-container">
+                                <div class="ratings">
+                                    <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                </div><!-- End .ratings -->
+                                <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                            </div><!-- End .rating-container -->
+
+                            <div class="product-price">
+                               ₹ <%= product.price %>
+                            </div><!-- End .product-price -->
+
+                            <div class="product-content">
+                                <p><%= product.description %> </p>
+                            </div><!-- End .product-content -->
+
+                           
+
+                            <div class="details-filter-row details-row-size">
+                                <label for="size">Weight:</label>
+                                <div class="select-custom">
+                                    <select name="size" id="size" class="form-control">
+                                        <option value="#" selected="selected">Select a Weight</option>
+                                        <option value="s">1Kg</option>
+                                        <option value="m">6Kg</option>
+                                        <option value="l">7Kg</option>
+                                        <option value="xl">15kg</option>
+                                        <option value="xl">20kg</option>
+                                        <option value="xl">40kg</option>
+                                        <option value="xl">50kg</option>
+                                       
+                                    </select>
+                                </div><!-- End .select-custom -->
+
+                               
+                            </div><!-- End .details-filter-row -->
+
+                            <div class="details-filter-row details-row-size">
+                                <label for="qty">Qty:</label>
+                                <div class="product-details-quantity">
+                                    <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                </div><!-- End .product-details-quantity -->
+                            </div><!-- End .details-filter-row -->
+
+                            <div class="product-details-action">
+                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+
+                                <div class="details-action-wrapper">
+                                    <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                                    <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a>
+                                </div><!-- End .details-action-wrapper -->
+                            </div><!-- End .product-details-action -->     
+                        </div><!-- End .container -->
+                   </div><!-- End .page-content -->
+                   <div class="product-details-tab">
+                    <ul class="nav nav-pills justify-content-center" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="product-desc-link" data-toggle="tab" href="#product-desc-tab"
+                                role="tab" aria-controls="product-desc-tab" aria-selected="true">Description</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel"
+                            aria-labelledby="product-desc-link">
+                            <div class="product-desc-content">
+                                <h3>Product Information</h3>
+                                <p>
+                                    <%= product.description %>
+                                </p>
+                                <ul>
+                                    <li>Nike Aerowsculpt technology uses moulded grooves for more consistent flight.
+                                    </li>
+                                    <li>Textured casing improves grip and feel.</li>
+                                    <li>Reinforced rubber bladder helps maintain air pressure and shape.</li>
+                                </ul>
+
+                                <p>Product Details <br>
+                                    12-panel design <br>
+                                    60% rubber/15% polyurethane/13% polyester/12% EVA <br>
+                                    Imported <br>
+                                    Colour Shown: White/Volt <br>
+                                    Style: DN3599-106</p>
+                            </div><!-- End .product-desc-content -->
+                        </div><!-- .End .tab-pane -->
+                        <div class="tab-pane fade" id="product-info-tab" role="tabpanel"
+                            aria-labelledby="product-info-link">
+                            <div class="product-desc-content">
+                                <h3>Information</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque
+                                    volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non,
+                                    semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum.
+                                    Aliquam porttitor mauris sit amet orci. </p>
+
+                                <h3>Fabric & care</h3>
+                                <ul>
+                                    <li>Faux suede fabric</li>
+                                    <li>Gold tone metal hoop handles.</li>
+                                    <li>RI branding</li>
+                                    <li>Snake print trim interior </li>
+                                    <li>Adjustable cross body strap</li>
+                                    <li> Height: 31cm; Width: 32cm; Depth: 12cm; Handle Drop: 61cm</li>
+                                </ul>
+
+                                <h3>Size</h3>
+                                <p>one size</p>
+                            </div><!-- End .product-desc-content -->
+                        </div><!-- .End .tab-pane -->
+                        <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel"
+                            aria-labelledby="product-shipping-link">
+                            <div class="product-desc-content">
+                                <h3>Delivery & returns</h3>
+                                <p>We deliver to over 100 countries around the world. For full details of the delivery
+                                    options we offer, please view our <a href="#">Delivery information</a><br>
+                                    We hope you’ll love every purchase, but if you ever need to return an item you can
+                                    do so within a month of receipt. For full details of how to make a return, please
+                                    view our <a href="#">Returns information</a></p>
+                            </div><!-- End .product-desc-content -->
+                        </div><!-- .End .tab-pane -->
+                        <div class="tab-pane fade" id="product-review-tab" role="tabpanel"
+                            aria-labelledby="product-review-link">
+                            <div class="reviews">
+                                <h3>Reviews (2)</h3>
+                                <div class="review">
+                                    <div class="row no-gutters">
+                                        <div class="col-auto">
+                                            <h4><a href="#">Samanta J.</a></h4>
+                                            <div class="ratings-container">
+                                                <div class="ratings">
+                                                    <div class="ratings-val" style="width: 80%;"></div>
+                                                    <!-- End .ratings-val -->
+                                                </div><!-- End .ratings -->
+                                            </div><!-- End .rating-container -->
+                                            <span class="review-date">6 days ago</span>
+                                        </div><!-- End .col -->
+                                        <div class="col">
+                                            <h4>Good, perfect size</h4>
+
+                                            <div class="review-content">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum
+                                                    dolores assumenda asperiores facilis porro reprehenderit animi culpa
+                                                    atque blanditiis commodi perspiciatis doloremque, possimus,
+                                                    explicabo, autem fugit beatae quae voluptas!</p>
+                                            </div><!-- End .review-content -->
+
+                                            <div class="review-action">
+                                                <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
+                                                <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                            </div><!-- End .review-action -->
+                                        </div><!-- End .col-auto -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .review -->
+
+                                <div class="review">
+                                    <div class="row no-gutters">
+                                        <div class="col-auto">
+                                            <h4><a href="#">John Doe</a></h4>
+                                            <div class="ratings-container">
+                                                <div class="ratings">
+                                                    <div class="ratings-val" style="width: 100%;"></div>
+                                                    <!-- End .ratings-val -->
+                                                </div><!-- End .ratings -->
+                                            </div><!-- End .rating-container -->
+                                            <span class="review-date">5 days ago</span>
+                                        </div><!-- End .col -->
+                                        <div class="col">
+                                            <h4>Very good</h4>
+
+                                            <div class="review-content">
+                                                <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum
+                                                    blanditiis laudantium iste amet. Cum non voluptate eos enim, ab
+                                                    cumque nam, modi, quas iure illum repellendus, blanditiis
+                                                    perspiciatis beatae!</p>
+                                            </div><!-- End .review-content -->
+
+                                            <div class="review-action">
+                                                <a href="#"><i class="icon-thumbs-up"></i>Helpful (0)</a>
+                                                <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                            </div><!-- End .review-action -->
+                                        </div><!-- End .col-auto -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .review -->
+                            </div><!-- End .reviews -->
+                        </div><!-- .End .tab-pane -->
+                    </div><!-- End .tab-content -->
+                </div><!-- End .product-details-tab -->
+               </main><!-- End .main -->
+
+                            <%- include('../userLayout/userFooter.ejs') %>

@@ -1,0 +1,49 @@
+<%- include('../userLayout/userHeader.ejs') %>
+<%- include('../userLayout/userNavbar.ejs') %>
+<main class="main">
+    <div class="page-content">
+        <div class="dashboard">
+            <div class="container d-flex justify-content-center">
+                <div class="col-lg-5">
+                    <h4 class="pt-3">Edit Address</h4>
+                    <form action="/updateAddress/?id=<%=address._id %>" method="post">
+                        <label>User Name</label>
+                        <input type="text" class="form-control" name="userName" value="<%= address.userName %>">
+                        
+                        <label>Mobile</label>
+                        <input type="text" class="form-control" name="mobile" value="<%=address.mobile %>">
+
+                        <label>Altrenative Mobile</label>
+                        <input type="text" class="form-control" name="altrenativeMobile" value="<%=address.altrenativeMob %>">
+
+                        <label>House Name</label>
+                        <input type="text" class="form-control" name="house" value="<%=address.houseName %>">
+
+                        <label>City</label>
+                        <input type="text" class="form-control" name="city" value="<%=address.city %>">
+
+                        <label>State</label>
+                        <input type="text" class="form-control mb-2" name="state" value="<%=address.state %>">
+
+                        <label>Pincode</label>
+                        <input type="text" class="form-control mb-2" name="pincode" value="<%=address.pincode %>">
+
+                        <label>Landmark</label>
+                        <input type="text" class="form-control mb-2" name="landmark" value="<%=address.landmark %>">
+
+                        <button type="submit" class="btn btn-outline-primary-2">
+                            SAVE CHANGES
+                        </button>
+                        <a href="">
+                            <button type="button" class="btn btn-primary">
+                                Cancel
+                            </button>
+                        </a> 
+                    </form>
+                </div><!-- .End .tab-pane -->
+            </div>
+        </div>
+    </div>           
+</main>
+
+<%- include('../userLayout/userFooter.ejs') %>

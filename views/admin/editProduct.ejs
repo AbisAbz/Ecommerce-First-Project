@@ -1,0 +1,168 @@
+<%- include('../adminLayout/adminheader.ejs') %>
+<%- include('../adminLayout/adminSidebar.ejs') %>
+<%- include('../adminLayout/adminNavbar.ejs') %>
+
+
+<!-- partial -->
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">EDIT PRODUCT</h4>
+            
+            <form class="form-sample"   method="post" action="/admin/productList/<%= product._id %>" enctype="multipart/form-data" >
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Product Name</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" name="productName" value="<%= product?.productName %>"/>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <div class="row">
+              <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">brand</label>
+                <div class="col-sm-9">
+                  <select class="form-control" name="brand">
+                    <option value="NULO">NULO</option>
+                    <option value="ZOE">ZOE</option>
+                    <option value="EUKANUBA">EUKANUBA</option>
+                    <option value="BLACK GOLD">BLACK GOLD</option>
+                    <option value="VICTOR">VICTOR</option>
+                    <option value="WIGGLES">WIGGLES</option>
+                  </select>
+                </div>
+              </div>
+              </div>
+              </div>
+              <div class="row">
+                
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Price</label>
+                    <div class="col-sm-9">
+                      <input class="form-control" name="price" value="<%= product?.price %>"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Category</label>
+                    <div class="col-sm-9">
+                      <select class="form-control" name="categoryname">
+                        <option ><%=product.categoryName %></option>
+                         
+                          <%
+       for(let i=0;i<category.length;i++){
+        %>
+        <option value="<%= category[i].categoryname %>"><%=category[i].categoryname%></option>
+        <%
+      }
+       %>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                      <label>File upload</label>
+                      
+                      <div class="input-group col-xs-12">
+                        <% product?.image.forEach((x,index) => { %>
+                          <img src="/adminAssets/adminImages/<%= x %>" alt="" width="60px" height="50">
+                        <% }) %>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                    edit image
+                  </button>
+                  
+                </div>
+                
+              </div>
+              <br>
+             
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Stock</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" name="stock" value="<%= product?.stock %>" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Description</label>
+                    <div class="col-sm-9">
+                      <!-- <input type="text" class="form-control" name="description"/> -->
+                      <input class="form-control" name="description" value="<%= product?.description %>">
+                      
+                    </div>
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div><br>
+              <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                   <a type="button" class="btn btn-dark" href="admin/productList">Cancel</a>
+            </form>
+          </div>
+        </div>
+        </div>
+
+
+    </div>
+  </div>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Image editing</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <% product.image.forEach((x,index)=> { %>
+
+<img class="mb-3" src="/adminAssets/adminImages/<%= x %>" alt="" width="60px" height="50">
+<!-- dlete button -->
+<a href="/admin/deleteimg/<%= x %>/<%= product._id%>">
+  <button type="button" class="btn btn-danger mb-4" data-bs-dismiss="modal">delete</button>
+</a>
+
+<br>
+
+<% }); %>
+
+      <!-- form starts -->
+      <form action="/admin/editImage/<%= product._id %>" method="post"
+        enctype="multipart/form-data">
+        <div class="modal-body">
+
+          <input multiple  class="form-control" name="file" id="image" type="file" class="custom-file-input" />
+          <br>
+         
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+   
+    </form>
+  </div>
+</div>
+  
+
+
+                  <%- include('../adminLayout/adminFooter.ejs') %>

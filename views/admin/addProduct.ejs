@@ -1,0 +1,100 @@
+<%- include('../adminLayout/adminheader.ejs') %>
+<%- include('../adminLayout/adminSidebar.ejs') %>
+<%- include('../adminLayout/adminNavbar.ejs') %>
+
+
+
+
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <h1>Add Product</h1>
+                    <div class="row">
+
+                        <div class="col-md-6 grid-margin stretch-card">
+
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <form class="forms-sample" method="post" action="/admin/productList" enctype="multipart/form-data">
+
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">ProductName</label>
+                                            <input type="text" name="productName" class="form-control"
+                                                 required>
+                                        </div>
+
+                                    
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Brand</label>
+                                            <!-- <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username"> -->
+                                            <select name="brand" class="form-control" 
+                                                required>
+                                                <option>NULO</option>
+                                                <option>ZOE</option>
+                                                <option>EUKANUBA</option>
+                                                <option>BLACK GOLD</option>
+                                                <option>VICTOR</option>
+                                                <option>WIGGLES</option>
+                                                <option>WHISKAS</option>
+                                                <option>TRIPLE CROWN</option>
+                                                <option>MT.CAPRA</option>
+                                                <option>PUREPET</option>
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Category</label>
+                                            <!-- <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username"> -->
+
+                                            <select name="categoryname" class="form-control" >
+                                                <% for(let i=0;i< category.length;i++){ %>
+                                                    <option>
+                                                        <%= category[i].categoryname %>
+                                                    </option>
+                                                    <% } %>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <label for="recipient-name" class="col-form-label">Image Upload</label>
+                                            <input class="form-control bg-dark" accept="image/*" type="file"  name="images" multiple>
+
+
+                                          </div>
+                                    </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Stock</label>
+                                            <input type="number" name="stock" class="form-control"
+                                                 required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Price</label>
+                                            <input type="number" name="price" class="form-control"
+                                                 required>
+                                        </div>
+                                            
+                                        <label for="exampleInputUsername1">Description</label>
+                                        <div class="form-group">
+                                            
+                                            <textarea name="description"  cols="60" rows="5"></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                        <button class="btn btn-dark">Cancel</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+ 
+
+<%- include('../adminLayout/adminFooter.ejs') %>

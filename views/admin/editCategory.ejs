@@ -1,0 +1,24 @@
+<%- include('../adminLayout/adminheader.ejs') %>
+<%- include('../adminLayout/adminSidebar.ejs') %>
+<%- include('../adminLayout/adminNavbar.ejs') %>
+
+<div class="" style="padding-top: 100px;">
+    <h2>EDIT CATEGORY</h2>
+
+    <form class="forms-sample" method="post" action="">
+      <div class="form-group">
+        <label for="exampleInputName1" style="padding-top: 10px;">CATEGORY NAME</label>
+        <input type="hidden" name="id" value="<%= category._id %>">
+        <input type="text" class="form-control" id="exampleInputName1" name="categoryname"
+          value="<%= category.categoryname %>">
+      </div>
+
+
+      <input type="submit" class="btn btn-primary mr-2" value="Submit">
+      <button class="btn btn-dark" id="Cancel"><a href="/admin/categoryList"></a>Cancel</button>
+    </form>
+  </div>
+
+
+
+<%- include('../adminLayout/adminFooter.ejs') %>

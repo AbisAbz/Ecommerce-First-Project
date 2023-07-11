@@ -1,0 +1,113 @@
+<%- include('../adminLayout/adminheader.ejs') %>
+<%- include('../adminLayout/adminSidebar.ejs') %>
+<%- include('../adminLayout/adminNavbar.ejs') %>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="card-body">
+          <h3 class="card-title">CATEGORY LIST</h3>
+          <span>
+            <% if(typeof message !== 'undefined'){ %>
+              <p style="text-align: center; color: red;">
+                <%= message %>
+              </p>
+            <% } %>
+          </span>
+  
+          <a type="button" class="btn btn-secondary w-60 " style="margin-top: 30px; margin-left: 10px;"
+            data-bs-toggle="modal" data-bs-target="#addcategory">
+            <i title="Add Category" class="fa fa-plus d-flex justify-content-end"></i> ADD CATEGORY
+          </a>
+  
+                          <!------------------- Modal for ADD CATEGORY------------------------->
+
+          <div class="modal fade" id="addcategory" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header ">
+                  <h4 class="modal-title fs-5" id="exampleModalLabel">ADD CATEGORY</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form class="forms-sample" method="post" action="/admin/insert-category">
+                    <div class="form-group">
+                      <label for="exampleInputName1">CATEGORY NAME</label>
+                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Name"
+                        name="categoryname">
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-dark" id="Cancel">Cancel</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="table-responsive">
+            <table class="table table-hover" id="myTable">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(category.length > 0){ %>
+                  <% for(let i = 0; i < category.length; i++){ %>
+                    <tr>
+                      <td><%= i+1 %></td>
+                      <td><%= category[i].categoryname %></td>
+                      <td>
+                        <a type="button" class="btn btn-success" href="/admin/editCategory?id=<%= category[i]._id %>">Edit</a>
+
+                        
+                          <!------------------- Modal for ADD CATEGORY------------------------->
+
+          <div class="modal fade" id="addcategory" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title fs-5" id="exampleModalLabel">EDIT CATEGORY</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form class="forms-sample" method="post" action="/admin/insert-category">
+                  <div class="form-group">
+                    <label for="exampleInputName1">CATEGORY NAME</label>
+                    <input type="text" class="form-control" id="exampleInputName1" placeholder="Name"
+                      name="categoryname">
+                  </div>
+                  <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                  <button class="btn btn-dark" id="Cancel">Cancel</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>          
+                        <a class="btn btn-danger" href="/admin/delete-category?id=<%= category[i]._id %>" onclick="return confirm('Are you sure you want to Delete <%= category[i].categoryname %>?')">Delete</a>
+                      </td>
+                    </tr>
+                 
+
+                
+                  <% } %>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+
+
+ 
+
+
+<%- include('../adminLayout/adminFooter.ejs') %>

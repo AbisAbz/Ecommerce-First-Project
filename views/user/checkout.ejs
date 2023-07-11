@@ -1,0 +1,208 @@
+<%- include('../userLayout/userHeader.ejs') %>
+<%- include('../userLayout/userNavbar.ejs') %>
+
+<main class="main">
+    <section class="checkout">
+       
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/SHOP">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" style="padding-left: 300px;"><h1><strong>Checkout</strong></h1></li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+            <div class="page-content">
+                <div class="checkout">
+                    <div class="container">
+                        
+                        <form action="#" id="checkout-form" >
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <h1 class="checkout-title"><strong>Select Delivery Address</strong></h1><!-- End .checkout-title -->
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                          <div class="d-flex justify-content-end pb-2">
+                                            <a href="/addAddress" type="button" class="btn btn-outline-primary-2"> Add
+                                                Address</a>
+                                        </div>
+                                            <% if(address && address.length > 0){
+                                                address.forEach((address)=>{
+                                                %>
+                                                <div class="card card-dashboard">
+                                                    <div class="card-body">
+                                                      <input class="form-check-input pt-5" type="radio" name="selectAddress" id="flexRadioDefault1" required
+                                                      value="<%=address.userName %>,<%=address.mobile %>,<%=address.altrenativeMob %>,<%=address.houseName %>,<%=address.city %>,<%=address.state %>,<%=address.pincode %>,<%=address.landmark %>">
+                                                       
+                                                        <ul>
+                                                          <h3 class="card-title"> Address</h3><!-- End .card-title -->
+                                                            <li>Name : <%=address.userName %>
+                                                            </li>
+                                                            <li>mobile : <%=address.mobile %>
+                                                            </li>
+                                                            <li>altrenativeMob : <%=address.altrenativeMob %>
+                                                            </li>
+                                                            <li>houseName : <%=address.houseName %>
+                                                            </li>
+                                                            <li>city : <%=address.city %>
+                                                            </li>
+                                                            <li>state : <%=address.state %>
+                                                            </li>
+                                                            <li>pincode : <%=address.pincode %>
+                                                            </li>
+                                                            <li>landmark : <%=address.landmark %>
+                                                            </li>
+                                                            <a href="/editAddress?id=<%= address._id %>">
+                                                                <button type="button" class="btn btn-outline-primary-2">
+                                                                    Edit
+                                                                </button>
+                                                            </a>
+                                                            <a href="">
+                                                               
+                                                                  <a  class="btn btn-outline-primary-2" type="button"
+                                                                            onclick="deleteAddress('<%= address._id%>')">Delete</a>
+                                                                        
+                                                            </a>
+
+                                                        </ul>
+                                                </div><!-- End .card-dashboard -->
+                                        </div>
+                                        <% }) } %>   
+                                    </div><!-- End .col-lg-12 -->
+                                </div><!-- End .row -->
+                            </div><!-- End .col-lg-9 -->
+                            <aside class="col-lg-3">
+                                <div class="summary">
+                                    <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+                                    <table class="table table-summary">
+                                        <tbody>
+                                            <tr class="summary-subtotal">
+                                                <td>Subtotal:</td>
+                                                <% if (products.length > 1) {
+         var Subtotal = 0;
+       for (let i = 0; i < products.length ; i++) {
+       Subtotal = Subtotal + products[i].totalPrice;
+     }
+     %>
+     <td>$<%= Subtotal %></td>
+     <% } else { %>
+     <td>$<%= products[0].totalPrice %></td>
+      <% } %>
+                                               
+                                            </tr><!-- End .summary-subtotal -->
+                                            <tr>
+                                                <td>Shipping:</td>
+                                                <td>₹ 0</td>
+                                            </tr>
+                                            <tr class="summary-total">
+                                                <td>Total:</td>
+                                                <td>$<span id="total"><%= Subtotal %></span></td>
+                                            </tr><!-- End .summary-total -->
+                                        </tbody>
+                                    </table><!-- End .table table-summary -->
+                                   
+                                        <div class="accordion-summary">
+                                            <div class="d-flex align-items-center">
+                                                <div class="mr-2">
+                                                    <input type="radio" id="COD" name="payment" value="COD" required>
+                                                </div>
+                                                <a href="" class="d-block text-dark" for="pay1">Cash On Delivery</a>
+                                            </div>
+                                            
+                                          </div><!-- End .accordion -->
+                                   
+
+                                    <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                        <span class="btn-text">Place Order</span>
+                                        <span class="btn-hover-text">Place Order</span>
+                                    </button>
+                                    </a>
+                                </div><!-- End .summary -->
+                            </aside><!-- End .col-lg-3 -->
+                    </div><!-- End .row -->
+                    </form>
+                </div><!-- End .container -->
+            </div><!-- End .checkout -->
+            </div><!-- End .page-content -->
+        
+      </section>
+      <!-- Checkout Section End -->
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+
+<script>
+  $("#checkout-form").submit((e) => {
+  let address = $("input[name=selectAddress]:checked").val();
+  let total = document.getElementById("total").innerHTML;
+  let payment = $("input[name=payment]:checked").val();
+  e.preventDefault();
+  $.ajax({
+    url: "/checkout",
+    method: "post",
+    data: {
+      Total: total,
+      address: address,
+      payment: payment,
+    },
+    success: (response) => {
+      if (response.codsuccess == true) {
+        swal
+          .fire({
+            positon: "center",
+            icon: "success",
+            title: "Order Placed Successfully",
+            showConfirmButton: false,
+            showCancelButton: true,
+            cancelButtonText: "Go to Shop",
+          })
+          .then((result) => {
+            if (result.dismiss === swal.DismissReason.cancel) {
+              // Redirect to the shop page
+              window.location.href = "/allProducts";
+            }
+          });
+      }
+    },
+    error: (error) => {
+      console.log(error);
+
+    },
+  });
+});
+
+
+
+  function deleteAddress(id) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "/deleteAddress",
+          data: {
+            id: id,
+          },
+          method: "POST",
+          success: (response) => {
+            if (response.remove) { // Use strict comparison (===) instead of assignment (=)
+              location.reload();
+            }
+          },
+        });
+      }
+    });
+  }
+</script>
+
+
+        <%- include('../userLayout/userFooter.ejs') %>

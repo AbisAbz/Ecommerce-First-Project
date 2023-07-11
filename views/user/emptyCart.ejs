@@ -1,0 +1,25 @@
+<%- include('../userLayout/userHeader.ejs') %>
+<%- include('../userLayout/userNavbar.ejs') %>
+
+
+<div  class="error-content text-center "  style="background-image:  url(/userAssets/images/empty-cart-1.png) ; background-size: contain;">
+    <div class="container">
+        
+        <p>Add something .</p>
+        <div class="empty-cart-1">
+        <a href="/allProducts" class="btn btn-outline-primary-2 btn-minwidth-lg">
+            <span style="color: black; padding-left: 10px;"><strong>BACK TO SHOP</strong></span>
+            <i class="icon-long-arrow-right"></i>
+        </a>
+    </div>
+    </div><!-- End .container -->
+</div><!-- End .error-content text-center -->
+
+<style>
+    .empty-cart-1{
+        margin-top: 320px;
+        
+    }
+</style>
+
+<%- include('../userLayout/userFooter.ejs') %>
