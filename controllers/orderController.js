@@ -73,16 +73,30 @@ const loaduserOrder = async(req,res) => {
    const userData = await User.findById(req.session.user_id)
    const orderData = await Order.find({userId: req.session.user_id})
 
-   res.render("orders",{user:userData,orders:orderData,session}).populate("products.productId");
+   res.render("orders",{user:userData,orders:orderData,session})
   } catch (error) {
     console.log(error.message);
     
   }
 }
 
+//====================Load Order Details Page=================//
+const loadOrderDetails = async(req,res) => {
+  try {
+  const session = req.session.user_id
+  const userData = await User.findById(req.session.user_id)
+  const orderData = await Order.find({userId: req.session.user_id})
+
+  res.render("orderDetails",{user:userData,orders:orderData,session})
+} catch (error) {
+ console.log(error.message);   
+}
+}
+
 
   module.exports = {
     placeOrder,
     loaduserOrder,
+    loadOrderDetails,
   }
 

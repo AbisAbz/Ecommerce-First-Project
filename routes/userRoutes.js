@@ -38,6 +38,7 @@ userRoute.post('/deleteAddress', auth.isLogin, addressController.deleteAddress);
 userRoute.get('/editAddress',auth.isLogin,addressController.loadEditAddress);
 userRoute.post('/updateAddress',auth.isLogin,addressController.updateAddress);
 userRoute.get('/orders',auth.isLogin,orderController.loaduserOrder);
+userRoute.get('/viewOrder/:id',auth.isLogin,orderController.loadOrderDetails)
 
 //==============CART AND CHECHOUT MANAGEMENT================//
 userRoute.get('/cart',auth.isLogin,cartController.loadCart)

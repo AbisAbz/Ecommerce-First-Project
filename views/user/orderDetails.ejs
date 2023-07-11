@@ -1,5 +1,132 @@
 <%- include('../userLayout/userHeader.ejs') %>
 <%- include('../userLayout/userNavbar.ejs') %>
 
+<div id="reloadDiv">
+    
+
+    <!-- User profile section -->
+    <section class="ec-page-content ec-vendor-uploads ec-user-account pb-5">
+        <div class="d-flex justify-content-center ">
+           
+             <div class="p-5 w-50 h-50" style="border: 1px solid #dee2e6">
+                 <h1>Order Details</h1>
+                <span>Order Date :</span><span class="font-weight-bold" > <%= orders.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).replace(/\//g,'-') %> </span><br>
+                <span>Total Amount : <span class="font-weight-bold"> <%= orders.totalAmount %> </span></span><br>
+                <span>Payment Method :<span class="font-weight-bold"><%= orders.paymentMethod %> </span></span><br>
+                <span> Order Id:</span><span class="font-weight-bold"> <%= orders._id %></span></span><br>
+                <span>Address :</span><span class="font-weight-bold"><%= orders.deliveryAddress %></span></span><br>
+             </div>
+        </div>
+        
+        <div class="container p-1">
+                <div class="ec-shop-rightside col-lg-12 col-md-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Quantity</th>
+                               
+                                <th scope="col">Total Price</th> 
+                                <th scope="col">Status</th> 
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(orders.products.length > 0){
+                            orders.products.forEach((order) => { %>
+                             <tr>   
+                            <td>
+                                <img width="50px" height="50px" src="/adminAssets/adminImage/<%= order.productId.productImage[0] %>" alt="">
+                                <%= order.productId.productName %> 
+                            </td>
+                            <td><%= order.count %></td>
+                          
+                            <td><%= order.productPrice %></td>
+                            <td><%= order.status %></td>
+                            <td>
+                               <% if(order.status == 'cancelled' ) {%> 
+                                     <p class="text-danger">cancelled</p>
+                                <% }else if (order.status == 'Delivered'){ %>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#returnModal-<%= order._id %>" >Return</button>
+                                    <% }else if (order.status == 'Product Returned'){ %>
+                                        <p class="text-success">Product Returned</p>
+                                 <%  }else if( order.status == 'out for delivery'){%> 
+                                    <p class="text-success">out for delivery</p>
+                                    <% }else{ %>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-<%= order._id %>" > Cancel </button>                          
+                               <% } %>                              
+                           </td>
+                                                  <!-- Modal for cancel Order -->
+
+<div class="modal fade" id="exampleModal-<%= order._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="/cancelOrder" method="post">
+            <input type="hidden" value="<%= order._id %>" name="orderid">
+            <input type="hidden" value="<%= orders._id %>" name="ordersid">
+           
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Are You Sure</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            
+           <p class="mx-5 mt-2 "> <input type="radio" value="Loss of interest"  name="reason" required> <span class="font-weight-bold">  Loss of interest </span></p>
+           <p class="mx-5"> <input type="radio" value="Unexpected Shipping costs" name="reason" required> <span class="font-weight-bold">  Unexpected Shipping costs  </span></p>
+           <p class="mx-5 mb-2"> <input type="radio" value="other" name="reason" required><span class="font-weight-bold">  other  </span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button type="submit" class="btn btn-primary"  >Yes</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+
+                                                    <!-- Modal for Return -->
+
+<div class="modal fade" id="returnModal-<%= order._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="/returnOrder" method="post">
+            <input type="hidden" value="<%= order._id %>" name="orderid">
+            <input type="hidden" value="<%= orders._id %>" name="ordersid">
+           
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Are You Sure</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex justify-content-center ">
+            
+          <input type="text" class="form-control mt-2" placeholder="type your reason here"  name="reason" style="width: 550px;" required>
+           
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button type="submit" class="btn btn-primary"  >Yes</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+                        </tr>
+
+                         <%   }) }%>
+                        </tbody>
+                        
+                          
+                    </table>
+
+
+
+
+                </div>
+        </div>
+
+
+    </section>
+</div>
 
 <%- include('../userLayout/userFooter.ejs') %>
+
