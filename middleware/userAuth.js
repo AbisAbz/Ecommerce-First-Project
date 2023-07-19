@@ -1,3 +1,6 @@
+const User = require("../models/userModel")
+let message;
+
 const isLogin = async (req, res, next) => {
     try {
       if (req.session.user_id) {
@@ -12,6 +15,25 @@ const isLogin = async (req, res, next) => {
       next(err);
     }
   };
+  const is_block = async (req, res, next) => {
+    try {
+      const userData = await User.findOne({ _id: req.session.user_id });
+      if (userData) {
+        if (userData.is_block == false) {
+          next();
+        } else {
+          req.session.destroy();
+          res.redirect(200, '/', "Your account has been blocked");
+        }
+      } else {
+        res.redirect('/');
+      }
+    } catch (error) {
+      console.log(error.message);
+      next(error);
+    }
+  }
+  
   
   const isLogout = async (req, res, next) => {
     try {
@@ -31,5 +53,6 @@ const isLogin = async (req, res, next) => {
   module.exports = {
     isLogin,
     isLogout,
+    is_block,
   };
   

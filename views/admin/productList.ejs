@@ -22,8 +22,11 @@
                       <th>PRODUCTNAME</th>
                       <th>CATEGORY</th>
                       <th>STOCK</th>
+                      <th>OFFER</th>
                       <th>PRICE</th>
                       <th style="padding-left: 50px;">ACTION</th>
+                      
+
                       
                      
                     </tr>
@@ -41,7 +44,29 @@
                             <td><%= product[i].productName %></td>
                             <td><%= product[i].categoryName %></td>
                             <td><%= product[i].stock %></td>
-                            <td><%= product[i].price %></td>
+
+                            <td>
+                              <%= product[i].discountPercentage %>%
+                            </td>
+                            <% 
+                            const discount =  product[i].discountPercentage 
+    
+                            const price =  product[i].price 
+    
+                            const disAmount = Math.round((price*discount)/100)
+    
+                            const total = price - disAmount
+    
+    
+                            %>
+                            <td>
+                              <% if(disAmount <= 0) {%>
+                                <%= product[i].price %>
+                                <% }else{ %>
+                              <del class="text-danger"><%= product[i].price %></del>
+                              <%= total %>
+                              <% } %>
+                            </td>
 
                             <td>
                                 <a class="btn btn-success" href="/admin/editProduct/<%= product[i]._id%>">Edit</a>
@@ -49,6 +74,10 @@
                          
                                 <a class="btn btn-danger" href="/admin/delete-product?id=<%= product[i]._id %>" onclick="return confirm('Are you sure you want to Delete <%= product[i].productName %>?')">Delete</a>
                             </td>
+                            <td>
+                                <button type="button" class="btn btn-outline-success btn-sm"  data-bs-toggle="modal" data-bs-target="#offerModal-<%= product[i]._id %>"
+                                data-bs-whatever="@mdo">Add offer</button>
+                              </td>
                            
                         </tr>
                     <% } %>
@@ -68,6 +97,62 @@
         </div>
     </div>
 </div>
+
+      
+<!-- product offer section inserting modal section -->
+<% for (let i = 0; i < product.length; i++) { %>
+    <div class="modal fade" id="offerModal-<%= product[i]._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #191C24;">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New Category</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="/admin/addOffer" method="post">
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">discount Name</label>
+                <input type="text" class="form-control" id="recipient-name" name="discountName">
+                <input type="hidden" name="id" value="<%= product[i]._id %>">
+              </div>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">discount Percentage</label>
+                <input type="text" class="form-control" id="recipient-name" name="discountPercentage">
+                <input type="hidden" name="id" value="<%= product[i]._id %>">
+              </div>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">expiryDate of Offer</label>
+                <input type="date" class="form-control" id="expiry-date-<%= product[i]._id %>" name="expiryDate" onchange="validateExpiryDate('expiry-date-<%= product[i]._id %>')">
+                <input type="hidden" name="id" value="<%= product[i]._id %>">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% } %>
+  
+  <script>
+    function validateExpiryDate(productId) {
+      var selectedDate = document.getElementById(productId).value;
+      var currentDate = new Date().toISOString().split('T')[0];
+      
+      if (selectedDate < currentDate) {
+        alert("Expiry date cannot be less than the current date.");
+        return false;
+      }
+      
+      return true; // Return true if the date is valid
+    }
+  </script>
+  
+
+
+
 
  
 <%- include('../adminLayout/adminFooter.ejs') %>

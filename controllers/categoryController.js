@@ -77,40 +77,6 @@ const insertCategory = async (req,res)=>{
   }
 
 //================save the category of the edit page===============//
-
-// const  editSaveCategory = async(req,res) => {
-//     try {
-//         const catName = uc.upperCase(req.body.categoryname);
-//     //    if(catDATA){
-//     //     res.redirect('/admin/categoryList')
-//     //    }
-//     if(catName.trim().length==0){
-//         const adminData = await User.findById({ _id: req.session.Auser_id });
-//         res.render('categoryList',{message:"Invalid typing",admin:adminData, category:catagoryDatas});
-//     }else{
-//         const catData = await category.findOneAndUpdate({_id:req.query.id},{$set:{categoryname:name}});
-//         // await category.updateOne({categoryname:catName},{$set:{is_delete:false}});
-    
-//         if(catData){
-//             const adminData = await User.findById({ _id: req.session.Auser_id });
-//              const catagoryDatas = await category.find({is_delete:false})
-//             res.render('categoryList',{message:"This category is already exist",admin:adminData,category:catagoryDatas});
-//         }else{
-//             const categoryData = await category.save();
-//             if(categoryData){
-//                 const catagoryDatas = await category.find({is_delete:false})
-//                 const adminData = await User.findById({ _id: req.session.Auser_id });
-//                 res.render('categoryList',{admin:adminData, category:catagoryDatas});
-//             }else{
-//                 res.redirect('/admin/dashboard');
-//             }
-//         }
-//     }
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// }
-
 const editSaveCategory = async (req, res,next) => {
     try {
       const id = req.body.id;

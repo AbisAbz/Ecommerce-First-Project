@@ -15,7 +15,8 @@ const config = require('./config/config');
 require("dotenv").config()
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.set("view engine", "ejs");
+app.set("views", "./views/user");
 //==================Session=====================//
 app.use(
   session({
@@ -32,6 +33,8 @@ app.use(nocache());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
 //===============For user routes=====================//
 
 const userRoutes = require('./routes/userRoutes');
@@ -43,6 +46,10 @@ const adminRoutes = require('./routes/adminRoutes');
 app.use('/admin', adminRoutes);
 
 //====================PORT==========================//
+app.use((req, res, next) => {
+  res.render('404Page');
+ res.end();
+})
 
 app.listen(process.env.port, () => {
   console.log('server is running');

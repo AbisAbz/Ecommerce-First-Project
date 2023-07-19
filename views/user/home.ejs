@@ -1,4 +1,65 @@
-<%- include('../userLayout/userHeader.ejs') %>
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/index-6.html  22 Nov 2019 09:56:18 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>MAFOODS</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/userAssets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/userAssets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/userAssets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="userAssets/images/icons/site.html">
+    <link rel="mask-icon" href="/userAssets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="/userAssets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="userAssets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/userAssets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="/userAssets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/userAssets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="/userAssets/css/plugins/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="/userAssets/css/plugins/jquery.countdown.css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="/userAssets/css/style.css">
+    <link rel="stylesheet" href="/userAssets/css/skins/skin-demo-6.css">
+    <link rel="stylesheet" href="/userAssets/css/demos/demo-6.css">
+    <link rel="stylesheet" href="/https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+     <!-- ajax-->
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+       <!--RazorPay-->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+ 
+
+     <!-- ajax-->
+     <link rel="stylesheet" href="/userAssets/css/plugins/nouislider/nouislider.css">
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+     
+
+</head>
+
 <%- include('../userLayout/userNavbar.ejs') %>
 
 <main class="main">
@@ -12,60 +73,19 @@
                     }
                 }
             }'>
-            <div class="intro-slide" style="background-image: url(userAssets/images/new\ pet\ cat.jpeg);">
-                <div class="container intro-content text-center">
-                    <h3 class="intro-subtitle text-white">Make The Cat Beautiful And Healthy</h3><!-- End .h3 intro-subtitle -->
-                    <h1 class="intro-title text-white"><strong>New Product</strong></h1><!-- End .intro-title -->
-
-                    <a href="/allProducts" class="neon-button" >
-                        <span style="color: black;"><strong>Discover More</strong></span>
+            
+            <% banners.forEach(banner => { %>
+                <div class="intro-slide" style="background-image: url('/adminAssets/adminImages/<%= banner.image %>');">
+                  <div class="container intro-content text-center">
+                    <h1 class="intro-title text-white"><strong><%= banner.heading %></strong></h1><!-- End .intro-title -->
+                    <a href="/allProducts" class="neon-button">
+                      <span style="color: black;"><strong>Discover More</strong></span>
                     </a>
-                </div><!-- End .intro-content -->
-            </div><!-- End .intro-slide -->
+                  </div><!-- End .intro-content -->
+                </div><!-- End .intro-slide -->
+              <% }) %>
+              
 
-            <div class="intro-slide" style="background-image: url(userAssets/images/new\ pet\ cow\ 4.jpg);">
-                <div class="container intro-content text-center">
-                    <h3 class="intro-subtitle text-white">Don’t Miss</h3><!-- End .h3 intro-subtitle -->
-                    <h1 class="intro-title text-white">Mysrety Deals</h1><!-- End .intro-title -->
-
-                    <a href="/allProducts" class="neon-button" >
-                        <span style="color: black;"><strong>Discover More</strong></span>
-                    </a>
-                </div><!-- End .intro-content -->
-            </div><!-- End .intro-slide -->
-
-            <div class="intro-slide" style="background-image: url(userAssets/images/new\ pet\ rabbite\ 3.jpg);">
-                <div class="container intro-content text-center">
-                    <h3 class="intro-subtitle text-white">Don’t Miss</h3><!-- End .h3 intro-subtitle -->
-                    <h1 class="intro-title text-white">Mysrety Deals</h1><!-- End .intro-title -->
-
-                    <a href="/allProducts" class="neon-button" >
-                        <span style="color: black;"><strong>Discover More</strong></span>
-                    </a>
-                </div><!-- End .intro-content -->
-            </div><!-- End .intro-slide -->
-
-            <div class="intro-slide" style="background-image: url(userAssets/images/new\ pet\ dog\ 5.jpg);">
-                <div class="container intro-content text-center">
-                    <h3 class="intro-subtitle text-white">Don’t Miss</h3><!-- End .h3 intro-subtitle -->
-                    <h1 class="intro-title text-white">Mysrety Deals</h1><!-- End .intro-title -->
-
-                    <a href="/allProducts" class="neon-button" >
-                        <span style="color: black;"><strong>Discover More</strong></span>
-                    </a>
-                </div><!-- End .intro-content -->
-            </div><!-- End .intro-slide -->
-
-            <div class="intro-slide" style="background-image: url(userAssets/images/bonnie-kittle-MUcxe_wDurE-unsplash.jpg);">
-                <div class="container intro-content text-center">
-                    <h3 class="intro-subtitle text-white">Don't Miss</h3><!-- End .h3 intro-subtitle -->
-                    <h1 class="intro-title text-white">Mysrety Deals</h1><!-- End .intro-title -->
-
-                    <a href="/allProducts" class="neon-button"  >
-                        <span style="color: black;"><strong>Discover More</strong></span>
-                    </a>
-                </div><!-- End .intro-content -->
-            </div><!-- End .intro-slide -->
         </div><!-- End .intro-slider owl-carousel owl-theme -->
 
         <span class="slider-loader"></span><!-- End .slider-loader -->
@@ -85,397 +105,51 @@
             </ul>
         </div><!-- End .heading -->
 
-        <div class="tab-content tab-content-carousel">
-            <div class="tab-pane p-0 fade show active" id="trending-all-tab" role="tabpanel" aria-labelledby="trending-all-link">
-                <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
-                    data-owl-options='{
-                        "nav": false, 
-                        "dots": true,
-                        "margin": 20,
-                        "loop": false,
-                        "responsive": {
-                            "0": {
-                                "items":2
-                            },
-                            "480": {
-                                "items":2
-                            },
-                            "768": {
-                                "items":3
-                            },
-                            "992": {
-                                "items":4
-                            },
-                            "1200": {
-                                "items":4,
-                                "nav": true,
-                                "dots": false
-                            }
-                        }
-                    }'>
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="userAssets/images/mt.capra goat 1.png" alt="Product image" class="product-image">
-                                <img src="userAssets/images/purepet dog 1.webp" alt="Product image" class="product-image-hover">
-                            </a>
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">CAT FOOD</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Whiskas Adult</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $19.99
-                            </div><!-- End .product-price -->
 
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="userAssets/images/triple crown horse 1.webp" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="userAssets/images/purepet dog 6.webp" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="userAssets/images/new pet hen.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
+        <div class="centered" >
+            <div class="card border-left-behind">
+              <div class="shadow" style="--url: url('https://i.ibb.co/PM4ghD4/full.png')"></div>
+              <div class="image background" style="--url: url('https://i.ibb.co/JpJVJxq/Background.png')"></div>
+              <div class="image cutout" style="--url: url('https://i.ibb.co/Dw3q3tZ/cutout.png')"></div>
+              <div class="content">
+                <a href="/allProducts">
+                    <h2 class="dcard"><strong>Discover More</strong></h2>
+                  </a>
+                  
+                <p class="pcard">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+              </div>
+            </div>
+            <div class="card border-right-behind border-bottom-behind">
+              <div class="shadow" style="--url: url('https://i.ibb.co/DC0MbxS/m-full.png')"></div>
+              <div class="image background" style="--url: url('https://i.ibb.co/ZdGBm4K/m-background.png')"></div>
+              <div class="image cutout" style="--url: url('https://i.ibb.co/RC70XmC/m-cutout.png')"></div>
+              <div class="content">
+                <a href="/allProducts">
+                    <h2 class="dcard"><strong>Discover More</strong></h2>
+                  </a>
+                <p class="pcard">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+              </div>
+            </div>
+            <div class="card border-left-behind">
+              <div class="shadow" style="--url: url('https://i.ibb.co/gSBp82C/b-full.png')"></div>
+              <div class="image background" style="--url: url('https://i.ibb.co/MDBcyMW/b-background.png')"></div>
+              <div class="image cutout" style="--url: url('https://i.ibb.co/bQNgD6y/b-cutout.png')"></div>
+              <div class="content">
+                <a href="/allProducts">
+                    <h2 class="dcard"><strong>Discover More</strong></h2>
+                  </a>
+                <p class="pcard">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+              </div>
+            </div>
+          </div>
 
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="userAssets/images/mt.capra goat 1.png" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-2-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">DOG FOOD</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Captain Crunch</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $24.99
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
 
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <span class="product-label label-sale">sale</span>
-                            <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-3-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-3-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">HORSE</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Bubblegum</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                <span class="new-price">Now $7.99</span>
-                                <span class="old-price">Was $12.99</span>
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-4-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-4-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">GOAT</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Flock Raiser</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $17.99
-                            </div><!-- End .product-price -->
-
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="userAssets/images/demos/demo-6/products/product-4-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="userAssets/images/demos/demo-6/products/product-4-2-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-1-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-1-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">COW</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Patriot Fodder</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $19.99
-                            </div><!-- End .product-price -->
-
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="userAssets/images/demos/demo-6/products/product-1-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="userAssets/images/demos/demo-6/products/product-1-2-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="userAssets/images/demos/demo-6/products/product-1-3-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                    
-                </div><!-- End .owl-carousel -->
-            </div><!-- .End .tab-pane -->
-            <div class="tab-pane p-0 fade" id="trending-women-tab" role="tabpanel" aria-labelledby="trending-women-link">
-                <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
-                    data-owl-options='{
-                        "nav": false, 
-                        "dots": true,
-                        "margin": 20,
-                        "loop": false,
-                        "responsive": {
-                            "0": {
-                                "items":0
-                            },
-                            "480": {
-                                "items":2
-                            },
-                            "768": {
-                                "items":3
-                            },
-                            "992": {
-                                "items":4
-                            },
-                            "1200": {
-                                "items":4,
-                                "nav": true,
-                                "dots": false
-                            }
-                        }
-                    }'>
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <span class="product-label label-sale">sale</span>
-                            <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-3-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-3-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Printed sweatshirt</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                <span class="new-price">Now $7.99</span>
-                                <span class="old-price">Was $12.99</span>
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-4-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-4-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Linen-blend paper bag trousers</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $17.99
-                            </div><!-- End .product-price -->
-
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="userAssets/images/demos/demo-6/products/product-4-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="userAssets/images/demos/demo-6/products/product-4-2-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-1-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-1-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Denim jacket</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $19.99
-                            </div><!-- End .product-price -->
-
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="userAssets/images/demos/demo-6/products/product-1-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="userAssets/images/demos/demo-6/products/product-1-2-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="userAssets/images/demos/demo-6/products/product-1-3-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .owl-carousel -->
-            </div><!-- .End .tab-pane -->
-
-            <div class="tab-pane p-0 fade" id="trending-men-tab" role="tabpanel" aria-labelledby="trending-men-link">
-                <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
-                    data-owl-options='{
-                        "nav": false, 
-                        "dots": true,
-                        "margin": 20,
-                        "loop": false,
-                        "responsive": {
-                            "0": {
-                                "items":0
-                            },
-                            "480": {
-                                "items":2
-                            },
-                            "768": {
-                                "items":3
-                            },
-                            "992": {
-                                "items":4
-                            },
-                            "1200": {
-                                "items":4,
-                                "nav": true,
-                                "dots": false
-                            }
-                        }
-                    }'>
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <span class="product-label label-sale">sale</span>
-                            <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-3-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-3-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Printed sweatshirt</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                <span class="new-price">Now $7.99</span>
-                                <span class="old-price">Was $12.99</span>
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .owl-carousel -->
-            </div><!-- .End .tab-pane -->
-        </div><!-- End .tab-content -->
     </div><!-- End .container -->
 
     <div class="mb-5"></div><!-- End .mb-5 -->
@@ -676,6 +350,8 @@
         </div><!-- End .more-container -->
     </div><!-- End .container -->
 
+    <script  src="./script.js"></script>
+
 
     <style>
         .neon-button{
@@ -699,6 +375,163 @@
         }
     </style>
 
+
+<script  src="./script.js"></script>
+
+
+<script>
+const angle = 20;
+const rotateCard = window;
+
+const lerp = (start, end, amount) => {
+	return (1 - amount) * start + amount * end;
+};
+
+const remap = (value, oldMax, newMax) => {
+	const newValue = ((value + oldMax) * (newMax * 2)) / (oldMax * 2) - newMax;
+	return Math.min(Math.max(newValue, -newMax), newMax);
+};
+
+window.addEventListener("DOMContentLoaded", (event) => {
+	const cards = document.querySelectorAll(".card");
+	cards.forEach((e) => {		
+		e.addEventListener("mousemove", (event) => {
+			const rect = e.getBoundingClientRect();
+			const centerX = (rect.left + rect.right) / 2;
+			const centerY = (rect.top + rect.bottom) / 2;
+			const posX = event.pageX - centerX;
+			const posY = event.pageY - centerY;
+			const x = remap(posX, rect.width / 2, angle);
+			const y = remap(posY, rect.height / 2, angle);
+			e.dataset.rotateX = x;
+			e.dataset.rotateY = -y;
+		});
+		
+		e.addEventListener("mouseout", (event) => {
+			e.dataset.rotateX = 0;
+			e.dataset.rotateY = 0;
+		});
+	});
+	
+	const update = () => {
+		cards.forEach((e) => {
+			let currentX = parseFloat(e.style.getPropertyValue('--rotateY').slice(0, -1));
+			let currentY = parseFloat(e.style.getPropertyValue('--rotateX').slice(0, -1));
+			if (isNaN(currentX)) currentX = 0;
+			if (isNaN(currentY)) currentY = 0;
+			const x = lerp(currentX, e.dataset.rotateX, 0.05);
+			const y = lerp(currentY, e.dataset.rotateY, 0.05);
+			e.style.setProperty("--rotateY", x + "deg");
+			e.style.setProperty("--rotateX", y + "deg");
+		})
+	}
+	setInterval (update,1000/60)
+});
+
+</script>
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap");
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Montserrat", sans-serif;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9rem;
+  height: 100%;
+}
+
+.card {
+  position: relative;
+  height: 28rem;
+  width: 20rem;
+  aspect-ratio: 5/7;
+  color: #ffffff;
+  perspective: 50rem;
+}
+.card .shadow {
+  position: absolute;
+  inset: 0;
+  background: var(--url);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8;
+  filter: blur(2rem) saturate(0.9);
+  box-shadow: 0 -1.5rem 2rem -0.5rem rgba(0, 0, 0, 0.7);
+  transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 2rem, -2rem);
+}
+.card .image {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent 40%), var(--url);
+  background-size: cover;
+  background-position: center;
+  -webkit-mask-image: var(--url);
+          mask-image: var(--url);
+  -webkit-mask-size: cover;
+          mask-size: cover;
+  -webkit-mask-position: center;
+          mask-position: center;
+}
+.card .image.background {
+  transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 0, 0rem);
+}
+.card .image.cutout {
+  transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 0, 4rem) scale(0.92);
+  z-index: 3;
+}
+.card .content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  inset: 0;
+  padding: 3.5rem;
+  transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 0, 6rem);
+  z-index: 4;
+}
+.card::after, .card::before {
+  content: "";
+  position: absolute;
+  inset: 1.5rem;
+  border: #e2c044 0.5rem solid;
+  transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 0, 2rem);
+}
+.card::before {
+  z-index: 4;
+}
+.card.border-left-behind::before {
+  border-left: transparent;
+}
+.card.border-right-behind::before {
+  border-right: transparent;
+}
+.card.border-bottom-behind::before {
+  border-bottom: transparent;
+}
+
+.dcard {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 2rem rgba(172, 34, 34, 0.5);
+  color: rgb(24, 101, 168);
+
+}
+
+.pcard {
+  font-weight: 100;
+  text-shadow: 0 0 2rem rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+}
+
+</style>
 
    
 

@@ -68,6 +68,9 @@ const loadProduct = async (req, res) => {
             description: req.body.description,
             brand: req.body.brand,
             image: images, // Updated property name
+            discountName: null,
+            discountPercentage: 0,
+            expiryDate: null,
           });
       
           const productData = await product.save();
@@ -145,6 +148,9 @@ const updateProduct = async (req,res) =>{
                   stock:req.body.stock,
                   price:req.body.price,
                   description:req.body.description,
+                  discountPercentage: req.body.discountPercentage,
+                  discountName: req.body.discountName,
+                  expiryDate: req.body.expiryDate,
               }})
               res.redirect('/admin/productList')
         
@@ -184,22 +190,54 @@ const updateimage = async (req, res, next) => {
     productData.image.push(req.file.filename);
     await productData.save();
     res.redirect('/admin/editProduct/'+id)
-
-  
-    
      
   } catch (err) {
     next(err);
   }
 };
 
+//============ADMIN OFFER ADDING=========//
+const addOffer = async (req, res, next) => {
+  try {
+    const productId = req.body.id;
+    const discountPercentage = req.body.discountPercentage;
+    const discountName = req.body.discountName;
+    const expiryDate = new Date(req.body.expiryDate);
 
+    if (expiryDate < new Date()) {
+      await Product.findOneAndUpdate(
+        { _id: productId },
+        {
+          $set: {
+            discountName: null,
+            discountPercentage: 0,
+            expiryDate: null,
+          },
+        },
+        { new: true }
+      );
+    } else {
+      const updateProduct = await Product.findOneAndUpdate(
+        { _id: productId },
+        {
+          $set: {
+            discountName: discountName,
+            discountPercentage: discountPercentage,
+            expiryDate: expiryDate,
+          },
+        },
+        { new: true }
+      );
+    }
 
+    res.redirect("/admin/productList");
+  } catch (error) {
+    next(error);
+  }
+};
  
  
        
-      
-
 module.exports = {
     loadProduct,
     loadAdd ,
@@ -209,4 +247,5 @@ module.exports = {
     updateProduct,
     deleteimage,
     updateimage,
+    addOffer,
 }

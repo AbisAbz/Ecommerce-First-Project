@@ -1,9 +1,8 @@
 <%- include('../userLayout/userHeader.ejs') %>
 <%- include('../userLayout/userNavbar.ejs') %>
 
-<main class="main">
-    <section class="checkout">
-       
+<div id="reloadDiv">
+        <main class="main">
             <nav aria-label="breadcrumb" class="breadcrumb-nav">
                 <div class="container">
                     <ol class="breadcrumb">
@@ -13,26 +12,98 @@
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
+
             <div class="page-content">
                 <div class="checkout">
                     <div class="container">
+
+                      <div class="checkout-discount">
+                        <a   data-bs-toggle="modal" class="m-2" data-bs-target="#addCouponModal"><strong>View Avilable Coupons</strong></a>
+                                      
+                                      <!-- Modal -->
+                                      <div class="modal fade" id="addCouponModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="container">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel">COUPONS</h5>
+                                            </div>
+
+                                            <% if(coupen .length > 0){
+                                              coupen.forEach((coupon) => { %>
+                                      
+                                              
+                                            
+                                            <div class="container my-5" >
+                                              <div class="d-flex coulmn">
+                                                <div class="col-lg-5">
+                                                  <div class="coupon bg-white">
+                                                    <div class="row no-gutters">
+                                                      <div class="col-lg-4 border-right d-flex flex-column justify-content-center">
+                                                        <div class="d-flex flex-column align-items-center ">
+                                                          <img src="/userAssets/images/brands/2.png" >
+                                                          <!-- <span class="d-block">PH TIMES</span> -->
+                                                          <!-- <span class="text-black-50">Shoes</span> -->
+                                                        </div>
+                                                      </div>
+                                                      <div class="col-lg-8">
+                                                        <div>
+                                                          <div class="d-flex flex-row justify-content-end off">
+                                                            <h2><%= coupon.discountPercentage %>%</h2>
+                                                            <span>OFF</span>
+                                                          </div>
+                                                          <div class="d-flex flex-row justify-content-between off px-3 p-2">
+                                                            <span>Promo code:</span>
+                                                            <a onclick="copyCouponCode('<%= coupon.code %>')"><span class="border border-success px-3 rounded code"><%= coupon.code %> | COPY</span></a>
+                                                          </div>
+                                                          <div class="d-flex flex-row justify-content-between off px-3 p-2">
+                                                            <span>Purchase Above</span>
+                                                            <span class=" px-3"><%= coupon.criteria %> Rupees</span>
+                                                          </div>
                         
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                      
+                                      
+                                            <% })
+                                            } %>
+                                            <button type="button" class="btn btn-dark  m-5	" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+        </div> 
+      </div>
+    </div>
+  </div>
+  
+</div><!-- End .checkout-discount -->
+
+            			<div class="checkout-discount">
+            				<form action="" >
+        						<input type="text" class="form-control" placeholder="Click here to enter your code" required id="code">
+            				<a onclick="applycoupon($('#code').val())" type="Submit" class="btn btn-outline-danger">APPLY COUPON</a>
+							</form>
+            			</div><!-- End .checkout-discount -->
+
+
                         <form action="#" id="checkout-form" >
                             <div class="row">
                                 <div class="col-lg-9">
-                                    <h1 class="checkout-title"><strong>Select Delivery Address</strong></h1><!-- End .checkout-title -->
+                                    <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
                                     <div class="row">
                                         <div class="col-lg-12">
                                           <div class="d-flex justify-content-end pb-2">
-                                            <a href="/addAddress" type="button" class="btn btn-outline-primary-2"> Add
+                                            <a href="/insertAddress" type="button" class="btn btn-outline-primary-2"> Add
                                                 Address</a>
                                         </div>
-                                            <% if(address && address.length > 0){
+                                            <% if(address.length> 0){
                                                 address.forEach((address)=>{
                                                 %>
                                                 <div class="card card-dashboard">
                                                     <div class="card-body">
-                                                      <input class="form-check-input pt-5" type="radio" name="selectAddress" id="flexRadioDefault1" required
+                                                      <input required class="form-check-input pt-5" type="radio" name="selectAddress" id="flexRadioDefault1"
                                                       value="<%=address.userName %>,<%=address.mobile %>,<%=address.altrenativeMob %>,<%=address.houseName %>,<%=address.city %>,<%=address.state %>,<%=address.pincode %>,<%=address.landmark %>">
                                                        
                                                         <ul>
@@ -53,16 +124,16 @@
                                                             </li>
                                                             <li>landmark : <%=address.landmark %>
                                                             </li>
-                                                            <a href="/editAddress?id=<%= address._id %>">
+                                                            <a href="/editAddress/?id=<%= address._id %>">
                                                                 <button type="button" class="btn btn-outline-primary-2">
                                                                     Edit
                                                                 </button>
                                                             </a>
                                                             <a href="">
-                                                               
-                                                                  <a  class="btn btn-outline-primary-2" type="button"
+                                                                
+                                                                    <a class="btn btn-outline-primary-2" type="button"
                                                                             onclick="deleteAddress('<%= address._id%>')">Delete</a>
-                                                                        
+                                                                </button>
                                                             </a>
 
                                                         </ul>
@@ -79,25 +150,15 @@
                                         <tbody>
                                             <tr class="summary-subtotal">
                                                 <td>Subtotal:</td>
-                                                <% if (products.length > 1) {
-         var Subtotal = 0;
-       for (let i = 0; i < products.length ; i++) {
-       Subtotal = Subtotal + products[i].totalPrice;
-     }
-     %>
-     <td>$<%= Subtotal %></td>
-     <% } else { %>
-     <td>$<%= products[0].totalPrice %></td>
-      <% } %>
-                                               
+                                                <td>₹<%=subtotal%></td>
                                             </tr><!-- End .summary-subtotal -->
                                             <tr>
-                                                <td>Shipping:</td>
-                                                <td>₹ 0</td>
+                                                <td>Discount:</td>
+                                                <td>₹<span id="discount">.00</span></td>
                                             </tr>
                                             <tr class="summary-total">
                                                 <td>Total:</td>
-                                                <td>$<span id="total"><%= Subtotal %></span></td>
+                                                <td>₹<span id="total"><%= subtotal %>.00</span></td>
                                             </tr><!-- End .summary-total -->
                                         </tbody>
                                     </table><!-- End .table table-summary -->
@@ -105,11 +166,16 @@
                                         <div class="accordion-summary">
                                             <div class="d-flex align-items-center">
                                                 <div class="mr-2">
-                                                    <input type="radio" id="COD" name="payment" value="COD" required>
+                                                    <input type="radio" id="COD" name="payment" value="COD">
                                                 </div>
                                                 <a href="" class="d-block text-dark" for="pay1">Cash On Delivery</a>
                                             </div>
-                                            
+                                            <div class="d-flex align-items-center">
+                                                <div class="mr-2">
+                                                  <input type="radio" id="onlinPayment" name="payment" value="onlinPayment">
+                                                </div>
+                                                <a href="" class="d-block text-dark">Razer Pay</a>
+                                            </div>
                                           </div><!-- End .accordion -->
                                    
 
@@ -125,84 +191,217 @@
                 </div><!-- End .container -->
             </div><!-- End .checkout -->
             </div><!-- End .page-content -->
+        </main><!-- End .main -->
+        </div>
+
+        <style>
+			
+      .coupon{
+        border-radius: 12px;
+        box-shadow: 5px 8px 10px #000000c0;
+        max-width: 535px;
+      }
+      
+      .code:hover{background: green;color: #fff;cursor: pointer}
+          </style>
+
+        <script>
+
+$("#checkout-form").submit((e) => {
+        let address = $("input[name=selectAddress]:checked").val();    
+        let total = document.getElementById("total").innerHTML;
+        let payment =  $("input[name=payment]:checked").val();
+        e.preventDefault();
+        $.ajax({
+          url: "/checkout",
+          method: "post",
+          data: {
+            Total: total,
+            address: address,
+            payment : payment 
+          },
+          success: (response) => {
+            if (response.codsuccess == true) {
+              swal.fire({
+                positon: 'center',
+                icon: "success",
+                title: 'Order Placed Successfully',
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonText: "Go to Shop",
+              }).then((result) => {
+                if (result.dismiss === swal.DismissReason.cancel) {
+                  // Redirect to the shop page
+                  window.location.href = "/allProducts";
+                }
+              });
+            }
+            else{
+              razorPayment(response.order)
+            }
+          }
+        });
+      });
+
+      function copyCouponCode(code) {
+          navigator.clipboard.writeText(code)
+          .then(function() {
+             alert('Coupon code copied to clipboard!');
+          })
+         .catch(function() {
+             alert('Failed to copy coupon code.');
+      });
+      }
+
+      function applycoupon(code){
         
-      </section>
-      <!-- Checkout Section End -->
-    </main>
+      event.preventDefault();
+    const amount = document.getElementById('total').innerHTML;
+    alert(amount)
+    $.ajax({
+      url:"/apply-coupon",
+      data:{  
+        code:code,
+        amount
+      },
+      method:"post",
+      success:(response)=>{
+        if(response.user){
+          Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'This coupon already used!'
+              })
+        }else if(response.date){
+          console.log("coupon date expired");
+          Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'date expired!!!'
+              })
+        }else if(response.amountOkey){
+          document.getElementById('discount').innerHTML = response.disAmount
+          document.getElementById('total').innerHTML = response.disTotal
+          console.log(response.disTotal);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Discount redeemed',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }else if(response.invalid){
+          Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Invalid Coupon!!!'
+              })
+        }
+      }
+    })
+  }
 
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
-
-<script>
-  $("#checkout-form").submit((e) => {
-  let address = $("input[name=selectAddress]:checked").val();
-  let total = document.getElementById("total").innerHTML;
-  let payment = $("input[name=payment]:checked").val();
-  e.preventDefault();
-  $.ajax({
-    url: "/checkout",
-    method: "post",
-    data: {
-      Total: total,
-      address: address,
-      payment: payment,
+      
+      function razorPayment(order){
+        alert(order.amount)
+  var options = {
+    "key": "rzp_test_AHmTRVvUqrBG8K", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function(response) {
+      verifyPayment(response, order);
     },
-    success: (response) => {
-      if (response.codsuccess == true) {
-        swal
-          .fire({
-            positon: "center",
+    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+        "name": "Gaurav Kumar", //your customer's name
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open();
+}
+
+
+
+function verifyPayment(payment,order){
+  alert(order)
+    const amount2 = document.getElementById("total").innerHTML;
+    $.ajax({
+      url:"/verifyPayment",
+      method:"post",
+      data:{
+        payment: payment,
+        amount2: amount2,
+        order: order
+      },
+      success:(response)=>{
+        if(response.success){
+          swal.fire({
+            positon: 'center',
             icon: "success",
-            title: "Order Placed Successfully",
+            title: 'Order Placed Successfully',
             showConfirmButton: false,
             showCancelButton: true,
             cancelButtonText: "Go to Shop",
-          })
-          .then((result) => {
+        }).then((result) => {
             if (result.dismiss === swal.DismissReason.cancel) {
-              // Redirect to the shop page
               window.location.href = "/allProducts";
             }
           });
+        }else{
+          swal.fire({
+            positon: 'center',
+            icon: "error",
+            title: 'payment failed',
+            showConfirmButton: false,
+            timer:1500,
+        })
+        }
       }
-    },
-    error: (error) => {
-      console.log(error);
-
-    },
-  });
-});
-
-
-
-  function deleteAddress(id) {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        $.ajax({
-          url: "/deleteAddress",
-          data: {
-            id: id,
-          },
-          method: "POST",
-          success: (response) => {
-            if (response.remove) { // Use strict comparison (===) instead of assignment (=)
-              location.reload();
-            }
-          },
-        });
-      }
-    });
+    })
   }
-</script>
 
 
+
+
+            function deleteAddress(id) {
+              Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "Cancel",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $.ajax({
+                    url: "/deleteAddress",
+                    data: {
+        
+                      id: id,
+                    },
+                    method: "post",
+                    success: (response) => {
+                      if ((response.remove = true)) {
+                        location.reload();
+                      }
+                    },
+                  });
+                }
+              });
+            }
+          </script>
         <%- include('../userLayout/userFooter.ejs') %>

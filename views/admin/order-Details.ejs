@@ -1,0 +1,169 @@
+<%- include('../adminLayout/adminheader.ejs') %>
+<%- include('../adminLayout/adminSidebar.ejs') %>
+<%- include('../adminLayout/adminNavbar.ejs')%>
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+    <div class="card col-lg-12 my-3">
+      <div class="card-body">
+        <h4 class="card-title">ORDERS</h4>
+        <div> 
+          <div class="p-1 " >                       
+             <span>User Name : <span class="font-weight-bold"> <%= orders.userName %> </span></span><br>
+             <span>Total Amount : <span class="font-weight-bold"> <%= orders.totalAmount %> </span></span><br>
+             <span>Payment Method :<span class="font-weight-bold"><%= orders.paymentMethod %> </span></span><br>
+             <span> Order Id:</span><span class="font-weight-bold"> <%= orders._id %></span></span><br>
+             <span>Address :</span><span class="font-weight-bold"><%= orders.deliveryAddress %></span></span><br>
+            </div>
+     </div>
+     </div>
+     </div>
+     <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+     <div class="card-body ">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Image</th>
+                <th>Product</th>
+                <th>price</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% if(orders.products.length > 0){
+                  orders.products.forEach((order,i)=>{  
+                      %>        
+                  <tr>                   
+                    <td><%= i+1 %></td>           
+                    <td class="product-col">
+                        <div class="product">
+                            <figure class="product-media">
+                                <a >
+                                    
+                                <img src="/adminAssets/adminImages/<%= order.productId.image[0]%>" alt="Product image">
+                                   
+                                </a>
+                            </figure>
+                            </div>
+                          </td>
+                    <td><%= order.productId.productName%></td>
+
+                   
+                    <td><%= order.productPrice%></td>
+                    
+                    <td><%= order.status%></td>
+                    <td>
+                    <%  if(order.status == 'cancelled' ){%>
+                      <a type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelReasonmodal-<%= order._id %>" > view Reason </a>
+
+                      <%  }else if (order.status == 'Product Returned' ){%>
+                       
+                        <a type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#returnReasonmodal-<%= order._id %>" > view Reason </a>
+                        <%  }else if (order.status == 'Delivered' ){%>
+                   <p class="text-success">Delivered</p>
+                        <% }else{ %>
+                          <div class="dropdown">
+  <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> ACTIONS </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton2">
+    <a class="dropdown-item" onclick="updateStatus('placed','<%= order._id %>','<%= orders.userId %>')" href="#">placed</a>
+    <a class="dropdown-item" onclick="updateStatus('shipped','<%= order._id %>','<%= orders.userId %>')" href="#">shipped</a>
+    <a class="dropdown-item" onclick="updateStatus('out for delivery','<%= order._id %>','<%= orders.userId %>')" href="#">out for delivery</a>
+    <a class="dropdown-item" onclick="updateStatus('Delivered','<%= order._id %>','<%= orders.userId %>')" href="#">Delivered</a>  
+  </div>
+</div>
+
+                    <%}%>
+                  </td>
+                   <!-- Modal for return Reason -->
+
+<div class="modal fade" id="returnReasonmodal-<%= order._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <form action="/cancelOrder" method="post">
+          <input type="hidden" value="<%= order._id %>" name="orderid">
+          <input type="hidden" value="<%= orders._id %>" name="ordersid">
+         
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reason</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          
+        <p><%= order.returnReason %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+        
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+                   <!-- Modal for cancel Reason -->
+
+<div class="modal fade" id="cancelReasonmodal-<%= order._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <form action="/cancelOrder" method="post">
+          <input type="hidden" value="<%= order._id %>" name="orderid">
+          <input type="hidden" value="<%= orders._id %>" name="ordersid">
+         
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reason</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          
+        <p><%= order.cancelReason %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+        
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+                  </tr>
+                  <%
+                })
+                }else{ %>
+
+                          <h1 class="d-flex justify-content-center">You Have No Orders</h1>
+                  <% } %>
+             
+            </tbody>
+          </table>
+        </div>
+        </div>
+        </div>
+        </div>  
+    </div>
+  </div>
+</div>
+
+<script>
+
+  function updateStatus(status, id ,userId) {
+    $.ajax({
+      url: '/admin/updateStatus',
+      method: 'post',
+      data: { 
+        status: status,
+        id: id,
+        userId:userId
+      },
+      success: (Response) => {
+        location.reload();
+      },
+    });
+  }
+
+</script>
+
+ <%- include('../adminLayout/adminFooter.ejs')%>

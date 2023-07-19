@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const products = require('../models/productModel');
 const Category = require('../models/categoryModel')
 const Address = require('../models/addressModel')
+const Banner = require('../models/bannerModel')
 const env = require('dotenv').config()
 const accountsid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -12,16 +13,17 @@ const client = require('twilio')(accountsid,authToken);
 
 //===========Load The Home=================//
 const loadHome = async(req,res,next) => {
-    try{
+    try{  
       const session = req.session.user_id;
+      const banners = await Banner.find({is_delete:false})
       if (!session) {
-        return res.render("home", { session: session });
+        return res.render("home", { session: session, banners  });
       }
       const userData = await User.findById(req.session.user_id);
       const productData = await products.find({is_delete:false})
   
       if (userData) {
-        return res.render("home", {products: productData ,user: userData, session });
+        return res.render("home", {products: productData ,user: userData, session,banners });
       } else {
         const session = null;
         return res.render("home", { session });
@@ -63,7 +65,8 @@ const loadRegister = async(req,res) => {
  
 //=============Registering User================//
 const insertUser=async(req,res) => {
-const mobile = req.body.mno
+const mobile = req.body.mno;
+
 try {
   // check if email, mobile, and username already exist
   const userWithEmail = await User.findOne({ email:req.body.email });
@@ -91,6 +94,7 @@ try {
  });
 
 req.session.userData = req.body;
+req.session.phone = mobile
 res.redirect('/otp')
 } catch (error) {
 console.log(error.message);
@@ -104,6 +108,7 @@ const loadotp = async(req,res)=>{
     console.log(error.message);
   }
 }
+
 
 //============OTP Verify================//
 
@@ -142,6 +147,21 @@ const otpVerify = async (req, res, next) => {
   };
 
 
+//============OTP Resend================//
+const resendOTP = async (req, res) => {
+  const { phone } = req.session;
+
+  try {
+    const verification = await client.verify.v2
+      .services("VA5ecbf85175830771cab6424b7ea764ae") // Replace with your Twilio service SID
+      .verifications.create({ to: `+91${phone}`, channel: "sms" });
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+};
+
 
 
 //===============Verifying The User===============//
@@ -177,20 +197,56 @@ const verifyLogin = async (req, res, next) => {
 
 
 //==================Load Shop Page=============//
-const loadShop = async(req,res) => {
-    try{
-      const session = req.session.user_id;
-      let page = req.query.page || 1; 
-      const category =  await Category.find({is_delete:false})
-      const userData = await User.findById(req.session.user_id)
-      const product = await products.find({is_delete:false}).limit(4)
-      .skip((page - 1) * 4)
-    let count = await products.find({is_admin:0}).countDocuments();
-      res.render("shop",{product,category,user:userData,session,totalPages: Math.ceil(count / 4) });
-    } catch (error) {
-      console.log(error.message);
+const loadShop = async (req, res) => {
+  try {
+    const categoryData = await Category.find({ is_delete: false });
+    const session = req.session.user_id;
+    const productData = await products.find({ is_delete: false });
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = 4;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const productCount = productData.length;
+    const totalPages = Math.ceil(productCount / limit);
+    const paginatedProducts = productData.slice(startIndex, endIndex);
+
+    if (!session) {
+      return res.render("shop", {
+        session: session,
+        product: productData,
+        category: categoryData,
+        product: paginatedProducts,
+        currentPage: page,
+        totalPages: totalPages,
+      });
     }
-  };
+
+    const userData = await User.findById(req.session.user_id);
+    if (userData) {
+      return res.render("shop", {
+        user: userData,
+        session,
+        category: categoryData,
+        product: paginatedProducts,
+        currentPage: page,
+        totalPages: totalPages,
+      });
+    } else {
+      const session = null;
+      return res.render("shop", {
+        session,
+        product: productData,
+        category: categoryData,
+        product: paginatedProducts,
+        currentPage: page,
+        totalPages: totalPages,
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
   //=======================Logout===================//
   const userLogout = async(req,res) => {
@@ -231,18 +287,98 @@ const loadShop = async(req,res) => {
 }
 
 
+//====================Sorting Using Price=================//
+const priceSort = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const categoryData = await Category.find({ is_delete: false });
+    const session = req.session.user_id;
+    const productData = await products.find({ is_delete: false });
+    const userData = await User.findById(session);
+    const page = parseInt(req.query.page) || 1;
+    const limit = 4;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
 
+    let sortedData;
+    if (id == 1) {
+      sortedData = productData.sort((a, b) => a.price - b.price);
+    } else {
+      sortedData = productData.sort((a, b) => b.price - a.price);
+    }
 
+    if (sortedData) {
+      const productCount = sortedData.length;
+      const totalPages = Math.ceil(productCount / limit);
+      const paginatedProducts = sortedData.slice(startIndex, endIndex);
 
+      res.render("shop", {
+        session,
+        category: categoryData,
+        product: paginatedProducts,
+        currentPage: page,
+        totalPages: totalPages,
+        user: userData,
+      });
+    } else {
+      res.render("shop", { product: [], session, category: categoryData, user: userData });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
+//====================Sorting Using Category=================//
+const filterCategory = async (req, res, next) => {
+  try {
+    var search = "";
+    if (req.query.search) {
+      search = req.query.search;
+    }
+    const id = req.params.id;
+    const limit = 6;
+    const count = await products.find({
+      is_delete: false,
+      $or: [
+        { productName: { $regex: ".*" + search + ".*", $options: "i" } },
+        { categoryName: { $regex: ".*" + search + ".*", $options: "i" } },
+      ],
+    }).countDocuments();
+    const session = req.session.user_id;
+    const categoryData = await Category.find({ is_delete: false });
 
-  
+    const userData = await User.find({});
 
+    const productData = await products.find({
+      categoryName: id,
+      is_delete: false,
+    });
 
-  
+    const currentPage = parseInt(req.query.page) || 1; // Add this line to get the current page value
 
- 
-
+    if (categoryData.length > 0) {
+      res.render("shop", {
+        totalPages: Math.ceil(count / limit),
+        product: productData,
+        session,
+        category: categoryData,
+        user: userData,
+        currentPage, // Add the currentPage variable to the rendering context
+      });
+    } else {
+      res.render("shop", {
+        totalPages: Math.ceil(count / limit),
+        product: [],
+        session,
+        category: categoryData,
+        user: userData,
+        currentPage, // Add the currentPage variable to the rendering context
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 module.exports = {
@@ -258,4 +394,7 @@ module.exports = {
     loadotp,
     loadProfile,
     userLogout,
+    priceSort,
+    resendOTP,
+    filterCategory,
 }

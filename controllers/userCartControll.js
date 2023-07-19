@@ -3,10 +3,11 @@ const products = require('../models/productModel')
 const Category = require('../models/categoryModel')
 const Cart = require('../models/cartModel')
 const Address = require('../models/addressModel')
+const Coupen = require('../models/coupenModel')
 
 
 //===================LOAD CART MANAGEMENT=============//
-const loadCart = async(req,res,next) => {
+const loadCart = async (req, res) => {
   try {
     let id = req.session.user_id;
     const session = req.session.user_id;
@@ -62,10 +63,9 @@ const loadCart = async(req,res,next) => {
       res.redirect("/login");
     }
   } catch (error) {
-    next(error)
+   console.log(error.message);
   }
 };
-
 //====================== ADD TO CART ==================//
 
 
@@ -135,69 +135,49 @@ const addToCart = async (req, res,next) => {
 };
 
 //======================Load CheckOut Page ==================//
-    
-const loadCheckout = async (req, res, next) => {
+const loadCheckout = async (req, res) => {
   try {
+    const subtotal=req.query.total
     const session = req.session.user_id;
-    const categoryData = await Category.find();
-    const user = await User.findOne({ _id: req.session.user_id });
+    const couponData = await Coupen.find({});
+    const userData = await User.findOne({ _id: req.session.user_id });
     const addressData = await Address.findOne({ userId: req.session.user_id });
+    const currentDate = new Date();
 
-    let cartData = await Cart.findOne({ userId: req.session.user_id }).populate(
-      "products.productId"
-    );
-
+    const validCoupons = couponData.filter((item) => item.expiryDate > currentDate);
     const total = await Cart.aggregate([
       { $match: { userId: req.session.user_id } },
       { $unwind: "$products" },
       {
         $group: {
           _id: null,
-          total: {
-            $sum: { $multiply: ["$products.productPrice", "$products.count"] },
-          },
+          total: { $sum: { $multiply: ["$products.productPrice", "$products.count"] } },
         },
       },
     ]);
 
-    const Total = total.length > 0 ? total[0].total : 0;
-    const totalAmount = Total;
-    let products = [];
-
-    if (cartData && cartData.products) {
-      products = cartData.products;
-    }
-
     if (req.session.user_id) {
-      if (addressData && addressData.addresses && addressData.addresses.length > 0) {
-        const address = addressData.addresses;
-
-        res.render("checkout", {
-          session,
-          Total,
-          address,
-          totalAmount,
-          categoryData,
-          user,
-          products,
-
-        });
+      if (addressData) {
+        if (addressData.addresses.length > 0) {
+          const address = addressData.addresses;
+          const Total = total.length > 0 ? total[0].total : 0;
+          const totalAmount = Total;
+          res.render("checkout", { session, Total, address, totalAmount, user:userData,coupen : validCoupons, subtotal:subtotal });
+        } else {
+          const Total = total.length > 0 ? total[0].total : 0;
+          const totalAmount = Total;
+          res.render("checkout", { session, Total, address: [], totalAmount, user:userData, coupen: validCoupons, subtotal:subtotal });
+        }
       } else {
-        res.render("emptyCheckout", {
-          session,
-          user,
-          products,
-          totalAmount,
-          Total,
-          categoryData,
-          message: "Add your delivery address",
-        });
+        const Total = total.length > 0 ? total[0].total : 0;
+        const totalAmount = Total;
+        res.render("checkout", { session, address: [], Total, totalAmount, user:userData, coupen: validCoupons, subtotal:subtotal });
       }
     } else {
       res.redirect("/");
     }
   } catch (error) {
-    next(error);
+    console.log(error.message);
   }
 };
 
