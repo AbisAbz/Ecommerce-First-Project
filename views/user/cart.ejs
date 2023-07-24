@@ -139,7 +139,7 @@ input.btpos {
     
                                                 <tr class="summary-total">
                                                     <td>Total:</td>
-                                                    <td>₹<%=Total+80%></td>
+                                                    <td>₹<%=tt+80%></td>
                                                 </tr><!-- End .summary-total -->
                                               
                                             </tbody>
@@ -159,33 +159,33 @@ input.btpos {
 
 
 
-            <script>
-                function changeQuantity(userId, proId, count) {
-                    
-                  $.ajax({
-                    url: '/changeQuantity',
-                    data: {
-                      user: userId,
-                      product: proId,
-                      count: count
-                    },
-                    method: 'post',
-                    success: (response) => {
-                      if (response.success) {
-                        $('#reloadDiv').load('/cart #reloadDiv')
-                      } else if (response.check) {
-                        swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: 'Out of stock'
-                        });
-                      }
-                    },
-                    error: (error) => {
-                      console.log(error);
-                    }
-                  });
-                }
+        <script>
+  function changeQuantity(userId, proId, count) {
+    $.ajax({
+      url: '/changeQuantity', // Correct the URL here
+      data: {
+        user: userId,
+        product: proId,
+        count: count
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.success) {
+          $('#reloadDiv').load('/cart #reloadDiv')
+        } else if (response.outOfStock) { // Check for outOfStock property in response
+          swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Out of stock'
+          });
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
 
 
                 function deletecart(proId) {

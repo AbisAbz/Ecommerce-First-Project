@@ -25,6 +25,21 @@
               <span>Payment Method :<span class="font-weight-bold"><%= orders.paymentMethod %> </span></span><br>
               <span> Order Id:</span><span class="font-weight-bold"> <%= orders._id %></span></span><br>
               <span>Address :</span><span class="font-weight-bold"><%= orders.deliveryAddress %></span></span><br>
+
+              <% let ne = false; %>
+              <% if (orders.products) { %>
+                  <% orders.products.forEach((order) => { %>
+                      <% if (order.status === 'Delivered') { %>
+                          <% ne = true; %>
+                      <% } %>
+                  <% }) %>
+              <% } %>
+              
+              <% if (ne) { %>
+                  <div class="pt-3 d-flex justify-content-end">
+                      <a href="/invoiceDownload/<%= orders._id %>" class="btn btn-outline-primary-2">Invoice Download</a>
+                  </div>
+              <% } %>
            </div>
       </div>
       

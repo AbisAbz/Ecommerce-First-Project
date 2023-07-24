@@ -1,0 +1,154 @@
+<%- include('../adminLayout/adminheader.ejs') %>
+<%- include('../adminLayout/adminSidebar.ejs') %>
+<%- include('../adminLayout/adminNavbar.ejs')%>
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column justify-content-between">
+              <h4>SALES REPORT</h4>
+              <form action="/admin/salesReportSort" method="post">
+                <div class="d-md-flex mx-3 justify-content-md-end">
+
+                  <div class=" mx-2">
+                    <h4>From</h4>
+                    <input type="date" name="fromDate">
+                  </div>
+                  <div>
+                    <h4>To</h4>
+                    <input type="date" name="toDate">
+                  </div>
+
+
+                </div>
+                <div class="d-flex justify-content-end pt-2">
+                  <button class="btn btn-primary" type="submit">submit</button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover" id="salesReport">
+                <!-- Example single danger button -->
+                <div class="d-flex justify-content-end">
+                  <div class="btn-group ">
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                      Action
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="/admin/salesReportSort/placed ">placed</a>
+                      <a class="dropdown-item" href="/admin/salesReportSort/out for delivery ">out for delivery</a>
+                      <a class="dropdown-item" href="/admin/salesReportSort/Delivered ">Delivered</a>
+                      <a class="dropdown-item" href="/admin/salesReportSort/shipped ">shipped</a>
+                  </div>
+                  
+                  </div>
+                </div>
+               
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Date</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Payment Method</th>
+                    <th>Total Amount</th>
+                    <th>STATUS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% order.forEach((item,i)=> { %>
+
+                    <tr>
+                      <td>
+                        <%= i+1 %>
+                      </td>
+                      <td>
+                        <%= item.date.toLocaleDateString('en-US', { year: 'numeric' , month: 'short' ,
+                          day: '2-digit' }).replace(/\//g, '-' ) %>
+                      </td>
+                      <td>
+                        <%= item.products.productDetails.productName %>
+                      </td>
+                      <td>
+                        <%= item.products.count %>
+                      </td>
+                      <td>
+                        <%= item.products.productPrice %>
+                      </td>
+                      <td>
+                        <%= item.paymentMethod %>
+                      </td>
+                      <td>
+                        <%= item.products.totalPrice %>
+                      </td>
+                      <td>
+                        <%= item.products.status %>
+                      </td>
+
+                    </tr>
+                    <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+  </div>
+</div>
+</div>
+</div>
+<!-- Table End -->
+<style>
+  .dt-button.buttons-excel,
+  .dt-button.buttons-csv,
+  .dt-button.buttons-pdf {
+
+    background-color: #4c7aaf;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 30px;
+
+  }
+
+  .dataTables_wrapper .dataTables_filter input[type="search"] {
+    color: white;
+  }
+</style>
+<script>
+  $(document).ready(function () {
+    $('#salesReport').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        'excel', 'pdf'
+      ]
+    });      
+  });
+</script>
+
+<%- include('../adminLayout/adminFooter.ejs')%>

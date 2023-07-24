@@ -45,6 +45,7 @@ userRoute.post('/updateAddress',addressController.updateAddress);
 userRoute.get('/orders',auth.isLogin,auth.is_block,orderController.loaduserOrder);
 userRoute.get("/viewOrder/:id", auth.isLogin,auth.is_block, orderController.loadOrderDetails);
 userRoute.post("/cancelOrder",orderController.cancelOrder)
+userRoute.get('/invoiceDownload/:id',orderController.loadInvoice);
 
 //==============CART AND CHECHOUT MANAGEMENT================//
 userRoute.get('/cart',auth.isLogin,auth.is_block,cartController.loadCart)

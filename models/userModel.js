@@ -27,6 +27,14 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:false
         
+    },
+    referalcode:{
+        type:Number,
+        reqired:true
+    },
+    wallet :{
+        type:Number,
+        default:0
     }
 })
 

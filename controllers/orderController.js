@@ -42,7 +42,7 @@ const placeOrder = async (req, res, next) => {
         const pro = products[i].productId;
         await Product.findByIdAndUpdate(
           { _id: pro },
-          { $inc: { quantity: -count } }
+          { $inc: { stock: -count } }
         );
       }
       if (order.status === "placed") {
@@ -121,12 +121,12 @@ const loaduserOrder = async(req,res) => {
 //====================Load Order Details Page=================//
 const loadOrderDetails = async (req, res) => {
   try {
-    const id = req.session.user_id;
+    const id = req.params.id;
+    console.log(id);
     const session = req.session.user_id;
-    const userData = await User.findById(req.session.user_id);
-    const orderData = await Order.findOne({userId:id}).populate("products.productId")
-   
-
+    const userData = await User.findById(session);
+    const orderData = await Order.findOne({_id:id}).populate("products.productId")
+   console.log(orderData);
     res.render("orderDetails", { user: userData, orders: orderData, session });
   } catch (error) {
     console.log(error.message);
@@ -183,6 +183,29 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+//======================== Invoice ORDER =====================//
+const loadInvoice = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const session = req.session.user_id;
+    const userData = await User.findById(session);
+    const orderData = await Order.findOne({ _id: id }).populate('products.productId');
+
+    if (!userData || !orderData) {
+      // Handle the case when user or order is not found
+      return res.status(404).send('User or order not found');
+    }
+
+    const date = new Date();
+
+    res.render('invoice', { session, user: userData, order: orderData, date });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+
                  //===ADMIN SIDE===//                   
 
 //=================Load-Order-Management================//
@@ -201,6 +224,7 @@ const loadOrderManagement = async (req, res) => {
 const loadSingleDetails = async (req, res) => {
   try {
     const id = req.params.id;
+    console.log(id);
     const adminData = await User.findById(req.session.Auser_id);
     const orderData = await Order.findOne({ _id: id }).populate(
       "products.productId" // Update path to 'productId'
@@ -232,6 +256,20 @@ const changeStatus = async (req, res) => {
       },
       { new: true }
     );
+    if (statusChange === "Delivered") {
+      await Order.findOneAndUpdate(
+        {
+          userId: userId,
+          "products._id": id,
+        },
+        {
+          $set: {
+            "products.$.deliveryDate": new Date(),
+          },
+        },
+        { new: true }
+      );
+    }
     if (updatedOrder) {
       res.json({ success: true });
     }
@@ -248,6 +286,7 @@ const changeStatus = async (req, res) => {
     loaduserOrder,
     loadOrderDetails,
     cancelOrder,
+    loadInvoice,
     loadOrderManagement,
     loadSingleDetails,
     changeStatus,

@@ -101,6 +101,7 @@ console.log(error.message);
 }
 };
 
+//============Load OTP Page================//
 const loadotp = async(req,res)=>{
   try {
     res.render('otp')
@@ -114,7 +115,6 @@ const loadotp = async(req,res)=>{
 
 const otpVerify = async (req, res, next) => {
     const otp = req.body.otp;
-    console.log(req.body.otp);
     try {
       const info = req.session.userData;
       const verifiedResponse = await client.verify.v2
@@ -137,7 +137,6 @@ const otpVerify = async (req, res, next) => {
           req.session.user_id = user;
           res.redirect("/");
         } else {
-          console.log("bhjbhbh");
           res.render("otp", { message: "Entered Otp is Incorrect" });
         }
       }
@@ -197,58 +196,82 @@ const verifyLogin = async (req, res, next) => {
 
 
 //==================Load Shop Page=============//
-const loadShop = async (req, res) => {
+const loadShop = async (req, res, next) => {
   try {
-    const categoryData = await Category.find({ is_delete: false });
-    const session = req.session.user_id;
-    const productData = await products.find({ is_delete: false });
+    var search = "";
+    if (req.query.search) {
+      search = req.query.search;
+    }
 
-    const page = parseInt(req.query.page) || 1;
+    var page = 1;
+    if (req.query.page) {
+      page = req.query.page;
+    }
+
     const limit = 4;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const productCount = productData.length;
-    const totalPages = Math.ceil(productCount / limit);
-    const paginatedProducts = productData.slice(startIndex, endIndex);
+
+    const session = req.session.user_id;
+    const productData = await products
+      .find({
+        is_delete: false,
+        $or: [
+          { productName: { $regex: ".*" + search + ".*", $options: "i" } },
+          { categoryName: { $regex: ".*" + search + ".*", $options: "i" } },
+        ],
+      })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec();
+
+    const count = await products
+      .find({
+        is_delete: false,
+        $or: [
+          { productName: { $regex: ".*" + search + ".*", $options: "i" } },
+          { categoryName: { $regex: ".*" + search + ".*", $options: "i" } },
+        ]
+      })
+      .countDocuments();
+
+    const categoryData = await Category.find({ is_delete: false });
 
     if (!session) {
       return res.render("shop", {
         session: session,
-        product: productData,
         category: categoryData,
-        product: paginatedProducts,
+        product: productData,
+        totalPages: Math.ceil(count / limit),
         currentPage: page,
-        totalPages: totalPages,
       });
     }
 
-    const userData = await User.findById(req.session.user_id);
+    const userData = await User.findById(session); // Use session directly as the argument
     if (userData) {
       return res.render("shop", {
         user: userData,
         session,
         category: categoryData,
-        product: paginatedProducts,
+        product: productData,
+        totalPages: Math.ceil(count / limit),
         currentPage: page,
-        totalPages: totalPages,
       });
     } else {
       const session = null;
       return res.render("shop", {
         session,
-        product: productData,
         category: categoryData,
-        product: paginatedProducts,
+        product: productData,
+        totalPages: Math.ceil(count / limit),
         currentPage: page,
-        totalPages: totalPages,
       });
     }
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
-  //=======================Logout===================//
+
+//=======================Logout===================//
   const userLogout = async(req,res) => {
     try {
         req.session.destroy()

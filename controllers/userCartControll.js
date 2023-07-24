@@ -71,7 +71,6 @@ const loadCart = async (req, res) => {
 
 const addToCart = async (req, res,next) => {
   try {
-    console.log("sadfghjk");
     const userId = req.session.user_id;
     const userData = await User.findOne({ _id: userId });
     const proId = req.body.id;
@@ -96,7 +95,6 @@ const addToCart = async (req, res,next) => {
 
 
     const updatedProduct = cartData.products.find((product) => product.productId === proId);
-    console.log(updatedProduct);
  
     const updatedQuantity = updatedProduct ? updatedProduct.count : 0;
 
@@ -215,13 +213,13 @@ const changeProductCount = async (req, res, next) => {
 
     if (count > 0) {
       // Quantity is being increased
-      if (updatedQuantity && updatedQuantity + count > productQuantity) { // Add null check for updatedQuantity
-        res.json({ success: false, message: 'Quantity limit reached!' });
+      if (updatedQuantity && updatedQuantity + count > productQuantity) {
+        res.json({ success: false, outOfStock: true, message: 'Quantity limit reached!' });
         return;
       }
     } else if (count < 0) {
       // Quantity is being decreased
-      if (!updatedQuantity || updatedQuantity <= 1 || Math.abs(count) > updatedQuantity) { // Add null check for updatedQuantity
+      if (!updatedQuantity || updatedQuantity <= 1 || Math.abs(count) > updatedQuantity) {
         await Cart.updateOne(
           { userId: userData },
           { $pull: { products: { productId: proId } } }
@@ -229,6 +227,7 @@ const changeProductCount = async (req, res, next) => {
         res.json({ success: true });
         return;
       }
+
     }
 
     const cartdata = await Cart.updateOne(
@@ -263,7 +262,6 @@ const deletecart = async (req, res,next) => {
     const cartData = await Cart.findOne({ userId: userData });
     if (cartData.products.length === 1) {
       const c = await Cart.deleteOne({ userId: userData });
-      console.log(c);
     } else {
       const v = await Cart.updateOne(
         { userId: userData },

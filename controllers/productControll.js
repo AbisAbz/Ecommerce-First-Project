@@ -74,7 +74,6 @@ const loadProduct = async (req, res) => {
           });
       
           const productData = await product.save();
-          console.log(productData);
           if (productData) {
             return res.redirect("/admin/productList");
           } else {
@@ -126,8 +125,6 @@ const loadProduct = async (req, res) => {
 const updateProduct = async (req,res) =>{
   const id = req.params.id
   
-
-
   
   if(Object.values(req.body).length>=5){
     
@@ -185,7 +182,6 @@ const deleteimage = async(req,res,next)=>{
 const updateimage = async (req, res, next) => {
   try {
     const id = req.params.id;
-    console.log(id);
     const productData = await Product.findOne({ _id: id })
     productData.image.push(req.file.filename);
     await productData.save();

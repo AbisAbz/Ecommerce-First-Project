@@ -2,6 +2,7 @@ const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const products = require('../models/productModel')
 const Order = require('../models/orderModel')
+
 let message;
 
 
@@ -35,7 +36,6 @@ const verifyLogin = async (req, res, next) => {
     const password = req.body.password;
 
     const userData = await User.findOne({ email: email });
-    console.log(userData);
     if (userData) {
       const passwordMatch = await bcrypt.compare(password, userData.password);
       if (passwordMatch) {
@@ -44,7 +44,6 @@ const verifyLogin = async (req, res, next) => {
         } else {
           req.session.Auser_id = userData._id;
           res.redirect("/admin/dashboard"); // Redirect to the dashboard
-          console.log(userData._id);
         }
       } else {
         res.render("loginPage", { message: "Email or password is incorrect" });
@@ -224,7 +223,125 @@ const unblock = async(req,res) => {
   }
 }
 
+//=================Load-Sales Report=================//
+const loadSalesReport = async (req, res, next) => {
+  try {
+    console.log(req.query.id);
+    const adminData = await User.findById(req.session.auser_id);
+    const order = await Order.aggregate([
+      { $unwind: "$products" },
+      {
+        $match: {
+          "products.status": {
+            $nin: ["Product Returned", "waiting for approval"],
+          },
+        },
+      },
+      { $sort: { date: -1 } },
+      {
+        $lookup: {
+          from: "products",
+          let: { productId: { $toObjectId: "$products.productId" } },
+          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
+          as: "products.productDetails",
+        },
+      },
+      {
+        $addFields: {
+          "products.productDetails": {
+            $arrayElemAt: ["$products.productDetails", 0],
+          },
+        },
+      },
+    ]);
 
+    res.render("salesReport", { admin: adminData, order });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+//=================Sales Report Sorting=================//
+const sortReport = async (req, res, next) => {
+  try {
+    const adminData = await User.findById({ _id: req.session.Auser_id });
+    const from = req.body.fromDate;
+    const to = req.body.toDate;
+
+    const order = await Order.aggregate([
+      { $unwind: "$products" },
+      {
+        $match: {
+          "products.status": { $ne: "Product Returned" },
+          $and: [
+            { date: { $gt: new Date(from) } },
+            { date: { $lt: new Date(to) } },
+          ],
+        },
+      },
+      { $sort: { date: -1 } },
+      {
+        $lookup: {
+          from: "products",
+          let: { productId: { $toObjectId: "$products.productId" } },
+          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
+          as: "products.productDetails",
+        },
+      },
+      {
+        $addFields: {
+          "products.productDetails": {
+            $arrayElemAt: ["$products.productDetails", 0],
+          },
+        },
+      },
+    ]);
+    console.log(order);
+
+    res.render("salesReport", { order, admin: adminData });
+  } catch (error) {
+    next(error);
+  }
+};
+//=================Sort-Sales-Report=================//
+const sortReportFilter = async (req, res, next) => {
+  try {
+    const adminData = await User.findById({ _id: req.session.Auser_id });
+    var status = req.params.id;
+    console.log(status, "dxfcgh");
+
+    const order = await Order.aggregate([
+      { $unwind: "$products" },
+      {
+        $match: {
+          "products.status": status, // Filter based on the product status
+        },
+      },
+      { $sort: { date: -1 } },
+      {
+        $lookup: {
+          from: "products",
+          let: { productId: { $toObjectId: "$products.productId" } },
+          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
+          as: "products.productDetails",
+        },
+      },
+      {
+        $addFields: {
+          "products.productDetails": {
+            $arrayElemAt: ["$products.productDetails", 0],
+          },
+        },
+      },
+    ]);
+    console.log(order);
+
+    res.render("salesReport", { order, admin: adminData });
+  } catch (error) {
+    next(error);
+  }
+};
 
 
   module.exports = {
@@ -236,4 +353,8 @@ const unblock = async(req,res) => {
     loadUsers,
     block,
     unblock,
+    loadSalesReport,
+    sortReport,
+    sortReportFilter,
+   
   }

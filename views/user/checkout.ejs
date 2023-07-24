@@ -257,7 +257,6 @@ $("#checkout-form").submit((e) => {
         
       event.preventDefault();
     const amount = document.getElementById('total').innerHTML;
-    alert(amount)
     $.ajax({
       url:"/apply-coupon",
       data:{  
@@ -304,7 +303,6 @@ $("#checkout-form").submit((e) => {
 
       
       function razorPayment(order){
-        alert(order.amount)
   var options = {
     "key": "rzp_test_AHmTRVvUqrBG8K", // Enter the Key ID generated from the Dashboard
     "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -335,7 +333,6 @@ var rzp1 = new Razorpay(options);
 
 
 function verifyPayment(payment,order){
-  alert(order)
     const amount2 = document.getElementById("total").innerHTML;
     $.ajax({
       url:"/verifyPayment",
@@ -371,9 +368,6 @@ function verifyPayment(payment,order){
       }
     })
   }
-
-
-
 
             function deleteAddress(id) {
               Swal.fire({

@@ -43,6 +43,9 @@ const orderSchema = new mongoose.Schema({
         type:String,
         
     },
+    deliveryDate:{
+      type:Date,
+    },
 
 
   }],
@@ -65,6 +68,7 @@ const orderSchema = new mongoose.Schema({
   orderId:{
     type:String,
   },
+  
 });
 
     module.exports = mongoose.model('Order', orderSchema);
