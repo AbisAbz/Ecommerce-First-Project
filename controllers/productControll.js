@@ -185,6 +185,10 @@ const updateimage = async (req, res, next) => {
     const productData = await Product.findOne({ _id: id })
     productData.image.push(req.file.filename);
     await productData.save();
+    await Sharp('./public/adminAssets/adminImages/' +req.file.filename)  // added await to ensure image is resized before uploading
+    .resize(800, 800)
+    .toFile(
+      "./public/adminAssets/adminImages/productImage/" + req.file.filename)
     res.redirect('/admin/editProduct/'+id)
      
   } catch (err) {

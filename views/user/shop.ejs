@@ -62,7 +62,7 @@
                                             <div class="product-cat">
                                                 <a href="#"><%= product.categoryName %></a>
                                             </div><!-- End .product-cat -->
-                                            <h3 class="product-title"><a href="product.html"><%= product.productName %></a></h3><!-- End .product-title -->
+                                            <h3 class="product-title"><a href="/singleProduct?id=<%= product._id %>"><%= product.productName %></a></h3><!-- End .product-title -->
                                             <div class="product-price">
                                                 <% 
                                                     const discount = product.discountPercentage;
@@ -209,6 +209,22 @@
                 }
             })
         }
+
+        function plzlogin() {
+        $.ajax({
+            success: (response) => {
+                swal.fire({
+                    position: 'top',
+                    title: '! Please Login To Your Account',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        popup: 'my-swal-class',
+                    },
+                });
+            }
+        });
+    }
 </script>
 
 

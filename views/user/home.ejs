@@ -11,6 +11,36 @@
     <meta name="keywords" content="HTML5 Template">
     <meta name="description" content="Molla - Bootstrap eCommerce Template">
     <meta name="author" content="p-themes">
+
+    <style>
+      /* Add your existing styles here */
+
+      /* Additional styles for responsiveness */
+      .centered {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 2rem;
+      }
+
+      .card {
+          width: 100%;
+          max-width: 20rem;
+      }
+
+      @media (min-width: 768px) {
+          .centered {
+              gap: 4rem;
+          }
+      }
+
+      @media (min-width: 1200px) {
+          .centered {
+              gap: 6rem;
+          }
+      }
+
+      /* Add any other media queries and styles as needed */
+  </style>
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/userAssets/images/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/userAssets/images/icons/favicon-32x32.png">
@@ -112,8 +142,8 @@
         <div class="centered" >
             <div class="card border-left-behind">
               <div class="shadow" style="--url: url('https://i.ibb.co/PM4ghD4/full.png')"></div>
-              <div class="image background" style="--url: url('https://i.ibb.co/JpJVJxq/Background.png')"></div>
-              <div class="image cutout" style="--url: url('https://i.ibb.co/Dw3q3tZ/cutout.png')"></div>
+              <div class="image background"><img src="/userAssets/images/372323-4k-wallpaper.jpg" style="height: 28rem; width: 28rem;"></div>
+              <div class="image cutout"><img style="margin-top: 90px; margin-left: 10px;" src="/userAssets/images/pngwing.com (6).png"></img></div>
               <div class="content">
                 <a href="/allProducts">
                     <h2 class="dcard"><strong>Discover More</strong></h2>
@@ -124,8 +154,8 @@
             </div>
             <div class="card border-right-behind border-bottom-behind">
               <div class="shadow" style="--url: url('https://i.ibb.co/DC0MbxS/m-full.png')"></div>
-              <div class="image background" style="--url: url('https://i.ibb.co/ZdGBm4K/m-background.png')"></div>
-              <div class="image cutout" style="--url: url('https://i.ibb.co/RC70XmC/m-cutout.png')"></div>
+              <div class="image background"><img src="/userAssets/images/blue-eyes-cat-curious.jpg" style="height: 28rem; width: 28rem;"></div>
+              <div class="image cutout"><img style="margin-top: 90px; margin-left: 10px;" src="/userAssets/images/Fat-British-Shorthair-Cat-Transparent-File.png"></img></div>
               <div class="content">
                 <a href="/allProducts">
                     <h2 class="dcard"><strong>Discover More</strong></h2>
@@ -135,13 +165,24 @@
             </div>
             <div class="card border-left-behind">
               <div class="shadow" style="--url: url('https://i.ibb.co/gSBp82C/b-full.png')"></div>
-              <div class="image background" style="--url: url('https://i.ibb.co/MDBcyMW/b-background.png')"></div>
-              <div class="image cutout" style="--url: url('https://i.ibb.co/bQNgD6y/b-cutout.png')"></div>
+              <div class="image background"><img src="/userAssets/images/topsphere-media-zlYUCmArB38-unsplash.jpg" style="height: 28rem; width: 28rem;"></div>
+              <div class="image cutout"><img style="margin-top: 10px; margin-left: 10px;" src="/userAssets/images/pngwing.com (5).png"></img></div>
               <div class="content">
                 <a href="/allProducts">
-                    <h2 class="dcard"><strong>Discover More</strong></h2>
+                    <h2 class="dcard"><strong>DISCOVER MORE</strong></h2>
                   </a>
-                <p class="pcard">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <p class="pcard">Purepet Horse Food is a premium and nutritionally</p>
+              </div>
+            </div>
+            <div class="card border-left-behind">
+              <div class="shadow" style="--url: url('https://i.ibb.co/gSBp82C/b-full.png')"></div>
+              <div class="image background"><img src="/userAssets/images/topsphere-media-zlYUCmArB38-unsplash.jpg" style="height: 28rem; width: 28rem;"></div>
+              <div class="image cutout"><img style="margin-top: 10px; margin-left: 10px;" src="/userAssets/images/pngwing.com (5).png"></img></div>
+              <div class="content">
+                <a href="/allProducts">
+                    <h2 class="dcard"><strong>DISCOVER MORE</strong></h2>
+                  </a>
+                <p class="pcard">Purepet Horse Food is a premium and nutritionally</p>
               </div>
             </div>
           </div>
@@ -216,13 +257,18 @@
 
         <div class="products">
             <div class="row justify-content-center">
+
+
+                <% for( let i = 0; i < 4; i++ ) { %>
+                
+               
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="product product-7 text-center">
                         <figure class="product-media">
                             <span class="product-label label-sale">Sale</span>
                             <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-5-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-5-2.jpg" alt="Product image" class="product-image-hover">
+                                <img src="/adminAssets/adminImages/productImage/<%= products[i].image[0] %>" alt="Product image" class="product-image">
+                                <img src="/adminAssets/adminImages/productImage/<%= products[i].image[1] %>" alt="Product image" class="product-image-hover">
                             </a>
 
                             <div class="product-action-vertical">
@@ -246,102 +292,9 @@
                         </div><!-- End .product-body -->
                     </div><!-- End .product -->
                 </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-6-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-6-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Shoes</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Sandals</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $12.99
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-7-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-7-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body" >
-                            <div class="product-cat" >
-                                <a href="#">Bags</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title" ><a href="product.html">Small bucket bag</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $14.99
-                            </div><!-- End .product-price -->
-
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="userAssets/images/demos/demo-6/products/product-7-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="userAssets/images/demos/demo-6/products/product-7-2-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="userAssets/images/demos/demo-6/products/product-8-1.jpg" alt="Product image" class="product-image">
-                                <img src="userAssets/images/demos/demo-6/products/product-8-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Denim jacket</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $34.99
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                  
+                <% } %>
+              
             </div><!-- End .row -->
         </div><!-- End .products -->
 
@@ -349,8 +302,6 @@
             <a href="#" class="btn btn-outline-dark-2 btn-more"><span>show more</span></a>
         </div><!-- End .more-container -->
     </div><!-- End .container -->
-
-    <script  src="./script.js"></script>
 
 
     <style>
@@ -485,6 +436,7 @@ body {
 .card .image.cutout {
   transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 0, 4rem) scale(0.92);
   z-index: 3;
+  overflow: hidden;
 }
 .card .content {
   position: absolute;
@@ -500,7 +452,7 @@ body {
   content: "";
   position: absolute;
   inset: 1.5rem;
-  border: #e2c044 0.5rem solid;
+  border: #1a3838 0.5rem solid;
   transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) translate3d(0, 0, 2rem);
 }
 .card::before {
@@ -521,7 +473,7 @@ body {
   font-weight: 800;
   margin-bottom: 0.5rem;
   text-shadow: 0 0 2rem rgba(172, 34, 34, 0.5);
-  color: rgb(24, 101, 168);
+  color: rgb(168, 24, 24);
 
 }
 

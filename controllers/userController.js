@@ -16,17 +16,17 @@ const loadHome = async(req,res,next) => {
     try{  
       const session = req.session.user_id;
       const banners = await Banner.find({is_delete:false})
-      if (!session) {
-        return res.render("home", { session: session, banners  });
-      }
+     
       const userData = await User.findById(req.session.user_id);
-      const productData = await products.find({is_delete:false})
+      const productData = await products.find({is_delete:false}).sort({ _id: -1}).limit(4)
+      console.log(productData);
+      
   
       if (userData) {
         return res.render("home", {products: productData ,user: userData, session,banners });
       } else {
         const session = null;
-        return res.render("home", { session });
+        return res.render("home", {products: productData,banners,session });
       }
     } catch (error) {
       next(error)
