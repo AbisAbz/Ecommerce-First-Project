@@ -259,45 +259,45 @@
             <div class="row justify-content-center">
               
                
-               <% if (products.length > 0) { %>
-                
-            
-                <% for( let i = 0; i < 4; i++ ) { %>
-                
-               
-                <div class="col-6 col-md-4 col-lg-3">
+              <% if (products.length > 0) { %>
+                <% var productCount = Math.min(products.length, 4); %>
+              
+                <% for (let i = 0; i < productCount; i++) { %>
+              
+                  <div class="col-6 col-md-4 col-lg-3">
                     <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <span class="product-label label-sale">Sale</span>
-                            <a href="product.html">
-                                <img src="/adminAssets/adminImages/productImage/<%= products[i].image[0] %>" alt="Product image" class="product-image">
-                                <img src="/adminAssets/adminImages/productImage/<%= products[i].image[1] %>" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Tie-detail top</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                <span class="new-price">Now $3.99</span>
-                                <span class="old-price">Was $6.99</span>
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
+                      <figure class="product-media">
+                        <span class="product-label label-sale">Sale</span>
+                        <a href="product.html">
+                          <img src="/adminAssets/adminImages/productImage/<%= products[i].image[0] %>" alt="Product image" class="product-image">
+                          <img src="/adminAssets/adminImages/productImage/<%= products[i].image[1] %>" alt="Product image" class="product-image-hover">
+                        </a>
+              
+                        <div class="product-action-vertical">
+                          <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                        </div><!-- End .product-action-vertical -->
+              
+                        <div class="product-action">
+                          <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                        </div><!-- End .product-action -->
+                      </figure><!-- End .product-media -->
+              
+                      <div class="product-body">
+                        <div class="product-cat">
+                          <a href="#">Clothing</a>
+                        </div><!-- End .product-cat -->
+                        <h3 class="product-title"><a href="product.html">Tie-detail top</a></h3><!-- End .product-title -->
+                        <div class="product-price">
+                          <span class="new-price">Now $3.99</span>
+                          <span class="old-price">Was $6.99</span>
+                        </div><!-- End .product-price -->
+                      </div><!-- End .product-body -->
                     </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-                  
+                  </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+              
                 <% } %>
-                <% } %>
+              <% } %>
+              
               
             </div><!-- End .row -->
         </div><!-- End .products -->
