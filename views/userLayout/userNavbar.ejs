@@ -65,11 +65,17 @@
 
                 <!-- CART BUTTON -->
                 <div class="dropdown cart-dropdown">
+                    <% if(session != null) { %>
                     <a href="/cart" class="dropdown-toggle" >
                         <i class="icon-shopping-cart"></i>
                         <span class="cart-txt"></span>
                     </a>
-
+                    <% } else { %>
+                        <a onclick="plzlogin()" class="dropdown-toggle" >
+                            <i class="icon-shopping-cart"></i>
+                            <span class="cart-txt"></span>
+                        </a> 
+                        <% } %>
                    
                     </div><!-- End .dropdown-menu -->
                 </div><!-- End .cart-dropdown -->
@@ -109,3 +115,21 @@
         </div><!-- End .container -->
     </div><!-- End .header-bottom -->
 </header><!-- End .header -->
+
+<script>
+      function plzlogin() {
+        $.ajax({
+            success: (response) => {
+                swal.fire({
+                    position: 'top',
+                    title: '! Please Login To Your Account',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        popup: 'my-swal-class',
+                    },
+                });
+            }
+        });
+    }
+</script>

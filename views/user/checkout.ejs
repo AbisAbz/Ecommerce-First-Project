@@ -29,8 +29,8 @@
                                               <h5 class="modal-title" id="exampleModalLabel">COUPONS</h5>
                                             </div>
 
-                                            <% if(coupen .length > 0){
-                                              coupen.forEach((coupon) => { %>
+                                            <% if(coupons .length > 0){
+                                              coupons.forEach((coupon) => { %>
                                       
                                               
                                             
@@ -150,7 +150,7 @@
                                         <tbody>
                                             <tr class="summary-subtotal">
                                                 <td>Subtotal:</td>
-                                                <td>₹<%=subtotal%></td>
+                                                <td>₹<%=totalAmount%></td>
                                             </tr><!-- End .summary-subtotal -->
                                             <tr>
                                                 <td>Discount:</td>
@@ -158,7 +158,7 @@
                                             </tr>
                                             <tr class="summary-total">
                                                 <td>Total:</td>
-                                                <td>₹<span id="total"><%= subtotal %>.00</span></td>
+                                                <td>₹<span id="total"><%= totalAmount  %>.00</span></td>
                                             </tr><!-- End .summary-total -->
                                         </tbody>
                                     </table><!-- End .table table-summary -->
@@ -166,13 +166,13 @@
                                         <div class="accordion-summary">
                                             <div class="d-flex align-items-center">
                                                 <div class="mr-2">
-                                                    <input type="radio" id="COD" name="payment" value="COD">
+                                                    <input type="radio" id="COD" name="payment" value="COD" required>
                                                 </div>
                                                 <a href="" class="d-block text-dark" for="pay1">Cash On Delivery</a>
                                             </div>
                                             <div class="d-flex align-items-center">
                                                 <div class="mr-2">
-                                                  <input type="radio" id="onlinPayment" name="payment" value="onlinPayment">
+                                                  <input type="radio" id="onlinPayment" name="payment" value="onlinPayment" required>
                                                 </div>
                                                 <a href="" class="d-block text-dark">Razer Pay</a>
                                             </div>

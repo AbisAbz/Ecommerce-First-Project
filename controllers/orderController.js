@@ -108,6 +108,7 @@ const loaduserOrder = async(req,res) => {
     const id = req.session.user_id;
    const session = req.session.user_id
    const userData = await User.findById(req.session.user_id)
+   const DeletePending = await Order.deleteMany({status:'pending'})
    const orderData = await Order.find({userId:id}).populate("products.productId");
 
 
@@ -212,9 +213,9 @@ const loadInvoice = async (req, res, next) => {
 const loadOrderManagement = async (req, res) => {
   try {
     const adminData = await User.findById(req.session.Auser_id);
-    const deletePending = await Order.deleteMany({ status: 'pending' });
     const orderData = await Order.find().populate("products.productId").sort({ date: -1 });
-    res.render('order-management', { admin: adminData, orderData: orderData }); // Update variable name to 'orderData'
+    const DeletePending = await Order.deleteMany({status:'pending'})
+    res.render('order-Management', { admin: adminData, orderData: orderData }); // Update variable name to 'orderData'
   } catch (error) {
     console.log(error.message);
   }

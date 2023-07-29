@@ -50,7 +50,6 @@ userRoute.get('/invoiceDownload/:id',orderController.loadInvoice);
 //==============CART AND CHECHOUT MANAGEMENT================//
 userRoute.get('/cart',auth.isLogin,auth.is_block,cartController.loadCart)
 userRoute.post('/addToCart',cartController.addToCart)
-userRoute.get('/emptyCheckout',auth.isLogin,auth.is_block,cartController.emptyCheckout)
 userRoute.get('/checkout',auth.isLogin,auth.is_block,cartController.loadCheckout)
 userRoute.post('/changeQuantity',cartController.changeProductCount)
 userRoute.post('/deletecart',cartController.deletecart)

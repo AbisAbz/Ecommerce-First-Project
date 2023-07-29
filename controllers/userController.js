@@ -179,7 +179,7 @@ const verifyLogin = async (req, res, next) => {
           } else {
             const passwordMatch = await bcrypt.compare(password, userCheck.password);
             if (passwordMatch) {
-              req.session.user_id = userCheck;
+              req.session.user_id = userCheck._id;
               res.redirect("/");
             } else {
               res.render("login", { message: "Invalid email or password" });

@@ -134,6 +134,7 @@ const deleteCoupen = async(req,res,next) =>{
     }
 }
 
+//================Apply Coupen===============//
 const applyCoupen = async(req,res,next)=>{
     try {
       const code = req.body.code;
