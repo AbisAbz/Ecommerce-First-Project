@@ -232,9 +232,7 @@ const loadSalesReport = async (req, res, next) => {
       { $unwind: "$products" },
       {
         $match: {
-          "products.status": {
-            $nin: ["Product Returned", "waiting for approval"],
-          },
+          "products.status": 'Delivered', // Filter based on the product status
         },
       },
       { $sort: { date: -1 } },
@@ -304,43 +302,7 @@ const sortReport = async (req, res, next) => {
     next(error);
   }
 };
-//=================Sort-Sales-Report=================//
-const sortReportFilter = async (req, res, next) => {
-  try {
-    const adminData = await User.findById({ _id: req.session.Auser_id });
-   
 
-    const order = await Order.aggregate([
-      { $unwind: "$products" },
-      {
-        $match: {
-          "products.status": 'Delivered', // Filter based on the product status
-        },
-      },
-      { $sort: { date: -1 } },
-      {
-        $lookup: {
-          from: "products",
-          let: { productId: { $toObjectId: "$products.productId" } },
-          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
-          as: "products.productDetails",
-        },
-      },
-      {
-        $addFields: {
-          "products.productDetails": {
-            $arrayElemAt: ["$products.productDetails", 0],
-          },
-        },
-      },
-    ]);
-    console.log(order);
-
-    res.render("salesReport", { order, admin: adminData });
-  } catch (error) {
-    next(error);
-  }
-};
 
 
   module.exports = {
@@ -354,6 +316,5 @@ const sortReportFilter = async (req, res, next) => {
     unblock,
     loadSalesReport,
     sortReport,
-    sortReportFilter,
    
   }

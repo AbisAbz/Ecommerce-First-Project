@@ -70,7 +70,6 @@ adminRoute.get('/deleteBanner/:id',auth.isLogin,bannerController.deleteBanner)
 //=========================== SALES REPORT ROUTE SECTION START ===========================//
 adminRoute.get("/salesReport", auth.isLogin, adminController.loadSalesReport);
 adminRoute.post("/salesReportSort", auth.isLogin, adminController.sortReport);
-adminRoute.get("/salesReportSort/:id",auth.isLogin,adminController.sortReportFilter);
 
 
 adminRoute.get('*',(req,res)=>{
