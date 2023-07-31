@@ -4,18 +4,18 @@ const Product = require('../models/productModel')
 
 
 //================Load Coupen Page===============//
-const loadCoupenPage = async(req,res)=>{
+const loadCoupenPage = async(req,res,next)=>{
     try {
         const adminData = await User.findById({ _id: req.session.Auser_id });
         const coupenData = await Coupen.find()
         res.render('coupenList',{admin:adminData,coupen:coupenData})
     } catch (error) {
-        console.log(error.message);
+        next(error)
     }
 }
 
 //================Insert Coupen===============//
-const insertCoupen = async(req,res) =>{
+const insertCoupen = async(req,res,next) =>{
     try {
         
         const adminData = await User.findById({ _id: req.session.Auser_id });
@@ -67,7 +67,7 @@ const insertCoupen = async(req,res) =>{
             res.redirect('/admin/coupen-list')
         }    
     } catch (error) {
-        console.log(error.message);
+        next(error)
     }
 }
 
@@ -114,7 +114,7 @@ const updateCoupen = async(req,res,next)=>{
             res.redirect('/admin/coupen-list')
         }
     } catch (error) {
-        console.log(error.message);
+        next(error)
     }
 }
 
@@ -130,7 +130,7 @@ const deleteCoupen = async(req,res,next) =>{
             res.json({success:false})
         }
     } catch (error) {
-        console.log(error.message);
+        next(error)
     }
 }
 
@@ -157,7 +157,7 @@ const applyCoupen = async(req,res,next)=>{
       }
       res.json({invalid:true})
     } catch (error) {
-        console.log(error.message);
+        next(error)
     }
 }
 

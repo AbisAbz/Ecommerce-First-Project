@@ -43,10 +43,11 @@ app.use('/', userRoutes);
 //===============for admin routes====================//
 
 const adminRoutes = require('./routes/adminRoutes');
+const { error } = require('console');
 app.use('/admin', adminRoutes);
 
 //====================PORT==========================//
-app.use((req, res, next) => {
+app.use((err,req, res, next) => {
   res.render('404Page');
  res.end();
 })

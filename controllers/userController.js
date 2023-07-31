@@ -35,11 +35,11 @@ const loadHome = async(req,res,next) => {
 
 
  //=========== Load Login Page===========//
-const loginLoad= async(req,res) => {
+const loginLoad= async(req,res,next) => {
     try {
         res.render('login')
     } catch (error) {
-        console.log(error);
+      next(error)
     }
 }
 
@@ -55,16 +55,16 @@ const securePassword = async(password) => {
 }
 
 //=============Load Register Form================//
-const loadRegister = async(req,res) => {
+const loadRegister = async(req,res,next) => {
     try{
         res.render('registration')
     }catch(err){
-        console.log(err.message);
+      next(error)
     }
 }
  
 //=============Registering User================//
-const insertUser=async(req,res) => {
+const insertUser=async(req,res,next) => {
 const mobile = req.body.mno;
 
 try {
@@ -97,16 +97,16 @@ req.session.userData = req.body;
 req.session.phone = mobile
 res.redirect('/otp')
 } catch (error) {
-console.log(error.message);
+  next(error)
 }
 };
 
 //============Load OTP Page================//
-const loadotp = async(req,res)=>{
+const loadotp = async(req,res,next)=>{
   try {
     res.render('otp')
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 }
 
@@ -147,7 +147,7 @@ const otpVerify = async (req, res, next) => {
 
 
 //============OTP Resend================//
-const resendOTP = async (req, res) => {
+const resendOTP = async (req, res,next) => {
   const { phone } = req.session;
 
   try {
@@ -156,7 +156,7 @@ const resendOTP = async (req, res) => {
       .verifications.create({ to: `+91${phone}`, channel: "sms" });
     res.sendStatus(200);
   } catch (err) {
-    console.error(err);
+    next(error)
     res.sendStatus(500);
   }
 };
@@ -272,26 +272,25 @@ const loadShop = async (req, res, next) => {
 
 
 //=======================Logout===================//
-  const userLogout = async(req,res) => {
+  const userLogout = async(req,res,next) => {
     try {
         req.session.destroy()
   
         res.redirect('/')
     } catch (error) {
-        console.log(error.message);
-  }
+      next()  }
   }
 
   //================Load single Product Page========//
-  const loadSingleProduct = async(req,res) => {
+  const loadSingleProduct = async(req,res,next) => {
     try{
       const session = req.session.user_id;
-      const id = req.query.id
-      const product = await products.findById(id);
+      const id = req.params.id
+      const product = await products.findOne({_id:id});
       const userData = await User.findById(req.session.user_id)
       res.render("singleProduct",{product,user:userData,session});
     } catch (error) {
-      console.log(error.message);
+      next(error)
     }
   };
   
@@ -311,7 +310,7 @@ const loadShop = async (req, res, next) => {
 
 
 //====================Sorting Using Price=================//
-const priceSort = async (req, res) => {
+const priceSort = async (req, res,next) => {
   try {
     const id = parseInt(req.params.id);
     const categoryData = await Category.find({ is_delete: false });
@@ -347,7 +346,7 @@ const priceSort = async (req, res) => {
       res.render("shop", { product: [], session, category: categoryData, user: userData });
     }
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 

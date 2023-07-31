@@ -73,4 +73,9 @@ adminRoute.post("/salesReportSort", auth.isLogin, adminController.sortReport);
 adminRoute.get("/salesReportSort/:id",auth.isLogin,adminController.sortReportFilter);
 
 
+adminRoute.get('*',(req,res)=>{
+    res.redirect('/admin')
+  });
+
+
 module.exports = adminRoute;

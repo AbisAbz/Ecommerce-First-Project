@@ -72,8 +72,9 @@ const addToCart = async (req, res, next) => {
     const userId = req.session.user_id;
     const userData = await User.findOne({ _id: userId });
     const proId = req.body.id;
+    console.log(proId);
     const productData = await products.findOne({ _id: proId });
-    const productQuantity = productData.quantity;
+    const productQuantity = productData.stock;
     const cartData = await Cart.findOneAndUpdate(
       { userId: userId },
       {
@@ -88,7 +89,9 @@ const addToCart = async (req, res, next) => {
     const updatedProduct = cartData.products.find(
       (product) => product.productId === proId
     );
+    console.log(updatedProduct,'issssssssssssss');
     const updatedQuantity = updatedProduct ? updatedProduct.count : 0;
+    console.log(updatedQuantity,'issssssssssssssssssssssssss');
     if (updatedQuantity + 1 > productQuantity) {
       return res.json({
         success: false,
@@ -212,7 +215,7 @@ const changeProductCount = async (req, res, next) => {
     );
 
     const productData = await products.findOne({ _id: proId });
-    const productQuantity = productData.quantity;
+    const productQuantity = productData.stock;
 
     const updatedCartData = await Cart.findOne({ userId: userData });
     const updatedProduct = updatedCartData.products.find(

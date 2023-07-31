@@ -15,12 +15,12 @@
                             <div class="card">
                                 <div class="card-body">
 
-                                    <form class="forms-sample" method="post" action="/admin/productList" enctype="multipart/form-data">
+                                    <form class="forms-sample" id="form" method="post" action="/admin/productList" enctype="multipart/form-data">
 
                                         <div class="form-group">
                                             <label for="exampleInputUsername1">ProductName</label>
-                                            <input type="text" name="productName" class="form-control"
-                                                 required>
+                                            <input type="text" id="productName" name="productName" class="form-control">
+                                            <span class="text-danger" id="productName-error"></span>
                                         </div>
 
                                     
@@ -58,8 +58,8 @@
 
                                         <div class="mb-3">
                                             <label for="recipient-name" class="col-form-label">Image Upload</label>
-                                            <input class="form-control bg-dark" accept="image/*" type="file"  name="images" multiple>
-
+                                            <input class="form-control bg-dark" accept="image/*" type="file"  name="images" id="formFileMultiple" multiple>
+                                            <span class="text-danger" id="image-error"></span>
 
                                           </div>
                                     </div>
@@ -67,19 +67,20 @@
                                         <div class="form-group">
                                             <label for="exampleInputUsername1">Stock</label>
                                              
-                                            <input type="number" name="stock" class="form-control"
-                                                 required>
+                                            <input type="number" name="stock" id="stockQuantity" class="form-control">
+                                            <span class="text-danger" id="stockQuantity-error"></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputUsername1">Price</label>
-                                            <input type="number" name="price" class="form-control"
-                                                 required>
+                                            <input type="number" name="price" class="form-control" id="price">
+                                            <span class="text-danger" id="price-error"></span>
                                         </div>
                                             
                                         <label for="exampleInputUsername1">Description</label>
                                         <div class="form-group">
                                             
-                                            <textarea name="description"  cols="60" rows="5"></textarea>
+                                            <textarea name="description"  id="description" cols="60" rows="5"></textarea>
+                                            <span class="text-danger" id="description-error"></span>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -95,7 +96,85 @@
             </div>
 
 
+<script>
 
+const form = document.getElementById("form");
+const formOffer = document.getElementById('formOffer');
+const productNameInput = document.getElementById("productName");
+const stockQuantityInput = document.getElementById('stockQuantity');
+const priceInput = document.getElementById('price');
+const descriptionInput = document.getElementById('description');
+const imageInput = document.getElementById('formFileMultiple');
+const discountNameInput = document.getElementById('discountName');
+const discountPercentageInput = document.getElementById('discountPercentage');
+
+const productNameError = document.getElementById("productName-error");
+const stockQuantityError = document.getElementById("stockQuantity-error");
+const priceError = document.getElementById("price-error");
+const descriptionError = document.getElementById("description-error");
+const imageError = document.getElementById("image-error");
+const discountNameError = document.getElementById('discountName-error');
+const discountPercentageError = document.getElementById('discountPercentage-error');
+    
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const productNameValue = productNameInput.value.trim();
+  if (!productNameValue) {
+    productNameError.textContent = "Please enter a product name";
+    return;
+  } else {
+    productNameError.textContent = "";
+  }
+
+  const stockQuantityValue = stockQuantityInput.value.trim();
+  if (!stockQuantityValue) {
+    stockQuantityError.textContent = "Please enter a stock quantity";
+    return;
+  } else if (isNaN(stockQuantityValue) || Number(stockQuantityValue) < 0 || Number(stockQuantityValue) % 1 !== 0) {
+    stockQuantityError.textContent = "Please enter a positive number for stock quantity";
+    return; 
+  } else {
+    stockQuantityError.textContent = "";
+  }
+
+  const priceValue = priceInput.value.trim();
+  if (!priceValue) {
+    priceError.textContent = "Please enter a price";
+    return;
+  } else if (isNaN(priceValue) || Number(priceValue) <= 0) {
+    priceError.textContent = "Please enter a positive number for price";
+    return;
+  } else {
+    priceError.textContent = "";
+  }
+
+  const descriptionValue = descriptionInput.value.trim();
+  if (!descriptionValue) {
+    descriptionError.textContent = "Please enter a description";
+    return;
+  } else {
+    descriptionError.textContent = "";
+  }
+
+  const imageFile = imageInput.files[0];
+  if (!imageFile) {
+    imageError.textContent = "Please select an image";
+    return;
+  } else {
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    if (!allowedExtensions.exec(imageFile.name)) {
+      imageError.textContent = "Invalid image file format";
+      return;
+    }
+    imageError.textContent = "";
+  }
+
+
+  form.submit();
+});
+
+</script>
  
 
 <%- include('../adminLayout/adminFooter.ejs') %>

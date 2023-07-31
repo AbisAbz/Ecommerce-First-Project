@@ -3,7 +3,7 @@ const Banner = require('../models/bannerModel')
 
 
 //===============Load Banner List================//
-const loadBannerManagement = async(req,res) => {
+const loadBannerManagement = async(req,res,next) => {
     try {
         const adminData = await User.find({is_admin:1});
         const banners = await Banner.find({is_delete:false});
@@ -12,12 +12,12 @@ const loadBannerManagement = async(req,res) => {
     }
     
  catch (error) {
-   console.log(error.message); 
+  next(error)
 }
 };
 
 //===============Add Banner ================//
-const addBanner = async(req,res) => {
+const addBanner = async(req,res,next) => {
     try {
         const heading = req.body.heading;
         let image = "";
@@ -31,7 +31,7 @@ const addBanner = async(req,res) => {
         banner.save();
         res.redirect("/admin/bannerList");
     } catch (error) {
-        console.log(error.message);
+      next(error)
         
     }
 }
@@ -62,7 +62,7 @@ const editBanner = async (req, res, next) => {
   };
 
   //===============Banner-Soft-Delete ================//
-  const deleteBanner = async(req,res) => {
+  const deleteBanner = async(req,res,next) => {
     try {
         const id = req.params.id
         
@@ -70,7 +70,7 @@ const editBanner = async (req, res, next) => {
         await Banner.updateOne({_id:id},{$set:{is_delete:true}})
         res.redirect('/admin/bannerList')
     } catch (error) {
-        console.log(error.message);
+      next(error)
         
     }
 }

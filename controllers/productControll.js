@@ -14,7 +14,7 @@ let message;
 
 
 //================load THE Product PAGE=================//
-const loadProduct = async (req, res) => {
+const loadProduct = async (req, res,next) => {
     try {
         let page = req.query.page || 1; 
         const adminData = await User.findById({ _id: req.session.Auser_id });
@@ -24,20 +24,20 @@ const loadProduct = async (req, res) => {
         let count = await Product.find({is_delete: false}).countDocuments();   
         res.render('productList', { category: catData, admin: adminData, product: productData,totalPages: Math.ceil(count / 10) });
     } catch (error) {
-        console.error(error.message); 
+      next(error)
   
     }
 };
 //===============LOAD THE ADD PRODUCT PAGE===================//
 
-     const loadAdd = async (req, res) => {
+     const loadAdd = async (req, res,next) => {
      try {
      const adminData = await User.findById({ _id: req.session.Auser_id });
     const catData = await Category.find({ is_delete: false });
                     
          res.render('addProduct', { category: catData, admin: adminData });
  } catch (error){
-       console.log(error.message);
+  next(error)
                           
      }
   };
@@ -45,7 +45,7 @@ const loadProduct = async (req, res) => {
 
 
 //==============Saving The Product PAGE================//
-const saveProduct = async (req, res) => {
+const saveProduct = async (req, res,next) => {
   try {
       const images = [];
       if (req.files && req.files.length > 0) {
@@ -59,19 +59,10 @@ const saveProduct = async (req, res) => {
           }
       }
 
-      // Check if stock and price are valid numbers
-      const stock = parseInt(req.body.stock.trim(), 10);
-      const price = parseFloat(req.body.price.trim());
-
-      if (isNaN(stock) || isNaN(price) || stock < 0 || price <= 0) {
-          // If stock or price is not a valid number, or if they are negative or zero, send an error response
-          return res.status(400).json({ error: "Invalid stock or price value" });
-      }
-
       const product = new Product({
           productName: req.body.productName.trim(),
-          stock: stock,
-          price: price,
+          stock: req.body.stock,
+          price: req.body.price,
           categoryName: req.body.categoryname,
           description: req.body.description,
           brand: req.body.brand,
@@ -80,7 +71,6 @@ const saveProduct = async (req, res) => {
           discountPercentage: 0,
           expiryDate: null,
       });
-
       const productData = await product.save();
       if (productData) {
           return res.redirect("/admin/productList");
@@ -88,7 +78,7 @@ const saveProduct = async (req, res) => {
           return res.redirect("/admin/productList");
       }
   } catch (error) {
-      console.log(error.message);
+    next(error)
       // Handle the error and send an appropriate response
       res.status(500).json({ error: "An error occurred while saving the product" });
   }
@@ -97,21 +87,21 @@ const saveProduct = async (req, res) => {
 
 
 //================DELETE THE PRODUCT===============//
-  const deleteProduct = async(req,res) => {
+  const deleteProduct = async(req,res,next) => {
         try {
             const id = req.query.id
            
             await Product.updateOne({_id:id},{$set:{is_delete:true}})
             res.redirect('/admin/productList')
         } catch (error) {
-            console.log(error.message);
+          next(error)
             
         }
     }
 
 //===============LOAD EDIT PRODUCT PAGE==================//
 
-    const loadEditProduct = async (req, res) => {
+    const loadEditProduct = async (req, res,next) => {
         try {
          
           const id = req.params.id; 
@@ -123,7 +113,7 @@ const saveProduct = async (req, res) => {
           const adminData = await User.findById(req.session.Auser_id);
           res.render('editProduct', { category: catData, product: productData, admin: adminData });
         } catch (error) {
-          console.log(error.message);
+          next(error)
         
         
         }
@@ -131,14 +121,13 @@ const saveProduct = async (req, res) => {
 
 //====================== UPDATE EDIT PRODUCT ====================== //
 
-const updateProduct = async (req,res) =>{
+const updateProduct = async (req,res,next) =>{
   const id = req.params.id
   
   
   if(Object.values(req.body).length>=5){
     
   if(req.body.productName.trim()=== "" || req.body.categoryname.trim() === "" || req.body.description.trim() === "" || req.body.stock.trim() === "" || req.body.price.trim() === "" ) {
-      const id = req.X``.id
       const productData = await productmodel.findOne({_id:id}).populate('category')
       const categoryData =categorymodel.find()
       const adminData = await usermodal.findById({_id:req.session.Auser_id})
@@ -146,7 +135,7 @@ const updateProduct = async (req,res) =>{
   }else{
       try {
         
-              const id = req.params.id
+           
               await Product.updateOne({_id:id},{$set:{
                   productName:req.body.productName,
                   categoryName:req.body.categoryname,
@@ -161,11 +150,10 @@ const updateProduct = async (req,res) =>{
               res.redirect('/admin/productList')
         
       } catch (error) {
-          console.log(error.message);
+        next(error)
   }
 }
  }else {
-  const id = req.params.id
       const productData = await productmodel.findOne({_id:id}).populate('category')
       const categoryData =categorymodel.find()
       const adminData = await usermodal.findById({_id:req.session.Auser_id})
@@ -176,7 +164,6 @@ const updateProduct = async (req,res) =>{
 //================DELETE IMAGE============//
 const deleteimage = async(req,res,next)=>{
   try{
-   
     const imgid = req.params.imgid;
     const prodid = req.params.prodid;
     fs.unlink(path.join(__dirname,"../public/adminAssets/adminImages",imgid),()=>{})

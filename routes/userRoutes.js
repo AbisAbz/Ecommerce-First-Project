@@ -28,8 +28,9 @@ userRoute.get('/otp',userController.loadotp)
 
 //=============HOME PAGE AND SHOP================//
 userRoute.get('/',userController.loadHome)
+userRoute.get('/home',userController.loadHome)
 userRoute.get('/allProducts',userController.loadShop)
-userRoute.get('/singleProduct',userController.loadSingleProduct)
+userRoute.get('/singleProduct/:id',userController.loadSingleProduct)
 userRoute.get('/price-sort/:id', userController.priceSort);
 userRoute.get('/filterCategory/:id',userController.filterCategory)
 
@@ -56,8 +57,6 @@ userRoute.post('/deletecart',cartController.deletecart)
 userRoute.post('/checkout',orderController.placeOrder)
 userRoute.post('/verifyPayment',orderController.verifyPayment)
 userRoute.post('/apply-coupon',couponController.applyCoupen)
-
-
 
 
 

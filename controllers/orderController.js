@@ -120,7 +120,7 @@ const loaduserOrder = async(req,res) => {
 }
 
 //====================Load Order Details Page=================//
-const loadOrderDetails = async (req, res) => {
+const loadOrderDetails = async (req, res,next) => {
   try {
     const id = req.params.id;
     console.log(id);
@@ -130,14 +130,14 @@ const loadOrderDetails = async (req, res) => {
    console.log(orderData);
     res.render("orderDetails", { user: userData, orders: orderData, session });
   } catch (error) {
-    console.log(error.message);
+    next(error)
     res.render("errorPage", { message: "Error loading order details" });
   }
 };
 
 //======================== CANCEL ORDER =====================//
 
-const cancelOrder = async (req, res) => {
+const cancelOrder = async (req, res,next) => {
   try {
     const id = req.body.orderid;
     const reason = req.body.reason
@@ -180,7 +180,7 @@ const cancelOrder = async (req, res) => {
       res.redirect("/vieworder/" + ordersId)
     }
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 
@@ -210,19 +210,19 @@ const loadInvoice = async (req, res, next) => {
                  //===ADMIN SIDE===//                   
 
 //=================Load-Order-Management================//
-const loadOrderManagement = async (req, res) => {
+const loadOrderManagement = async (req, res,next) => {
   try {
     const adminData = await User.findById(req.session.Auser_id);
     const orderData = await Order.find().populate("products.productId").sort({ date: -1 });
     const DeletePending = await Order.deleteMany({status:'pending'})
     res.render('order-Management', { admin: adminData, orderData: orderData }); // Update variable name to 'orderData'
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 }
 
 //=================Load-Order-Details================//
-const loadSingleDetails = async (req, res) => {
+const loadSingleDetails = async (req, res,next) => {
   try {
     const id = req.params.id;
     console.log(id);
@@ -234,12 +234,12 @@ const loadSingleDetails = async (req, res) => {
     const expectedDate = new Date(orderDate.getTime() + 5 * 24 * 60 * 60 * 1000);
     res.render('order-Details', { admin: adminData, orders: orderData, expectedDate });
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 }
 
 //=================update-order-status================//
-const changeStatus = async (req, res) => {
+const changeStatus = async (req, res,next) => {
   try {
     const id = req.body.id;
     const userId = req.body.userId;
@@ -275,7 +275,7 @@ const changeStatus = async (req, res) => {
       res.json({ success: true });
     }
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 

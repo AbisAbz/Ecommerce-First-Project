@@ -18,13 +18,13 @@ const securePassword = async (password) => {
   };
 
 //================LOAD LOGIN PAGE===========//
-  const loadLogin = async (req,res) =>{
+  const loadLogin = async (req,res,next) =>{
     try {
          res.render('loginPage',{message})
          message = null;
         
     } catch (error) {
-        console.log(error.message);
+       next(error)
         
     }
   } 
@@ -57,13 +57,13 @@ const verifyLogin = async (req, res, next) => {
 };
 
 //=========== Log Out===========//
-const adminLogout = async(req,res)=>{
+const adminLogout = async(req,res,next)=>{
   try {
       req.session.destroy()
 
       res.redirect('/admin')
   } catch (error) {
-      console.log(error.message);
+    next(error)
 }
 }
 
@@ -184,7 +184,7 @@ const loadDashboard = async (req, res, next) => {
 
 //====================User List=================//
 
-const loadUsers = async (req, res) => {
+const loadUsers = async (req, res,next) => {
   try {
     let page = req.query.page || 1; 
     const adminData = await User.findById({ _id: req.session.Auser_id });
@@ -195,14 +195,14 @@ const loadUsers = async (req, res) => {
   
 
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 
 
 //=================Block & UnBlock=================//
 
-const block = async(req,res) => {
+const block = async(req,res,next) => {
    try {
     
        const userData = await User.findByIdAndUpdate(req.query.id,{$set:{is_block:true}})
@@ -219,7 +219,7 @@ const unblock = async(req,res) => {
      const userData = await User.findByIdAndUpdate(req.query.id,{$set:{is_block:false}})
      res.redirect("/admin/userList")
   } catch (error) {
-     console.log(error.message);
+    next(error)
   }
 }
 
@@ -308,13 +308,13 @@ const sortReport = async (req, res, next) => {
 const sortReportFilter = async (req, res, next) => {
   try {
     const adminData = await User.findById({ _id: req.session.Auser_id });
-    var status = req.params.id;
+   
 
     const order = await Order.aggregate([
       { $unwind: "$products" },
       {
         $match: {
-          "products.status": status, // Filter based on the product status
+          "products.status": 'Delivered', // Filter based on the product status
         },
       },
       { $sort: { date: -1 } },

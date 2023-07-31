@@ -7,14 +7,14 @@ const uc = require('upper-case')
 
 //===============LOAD THE CATEGORY PAGE==================//
 
-const loadCategoryList = async (req, res) => {
+const loadCategoryList = async (req, res,next) => {
     try {
       
       const adminData = await User.findById({ _id: req.session.Auser_id });
       const catData = await category.find({is_delete:false})
       res.render("categoryList",{ category:catData,admin:adminData});
     } catch (error) {
-      console.log(error.message);
+      next(error)
     }
   };
 
@@ -22,7 +22,7 @@ const loadCategoryList = async (req, res) => {
 
 // categoryController.js
 
-const insertCategory = async (req,res)=>{
+const insertCategory = async (req,res,next)=>{
     try
      {
         if(req.session.Auser_id){
@@ -58,20 +58,20 @@ const insertCategory = async (req,res)=>{
             res.redirect('/admin')
         }
     } catch (error) {
-        console.log(error.message);
+      next(error)
     }
 }
 
   //==============LOAD Edit Category=====================//
 
-  const editCategory = async(req,res) => {
+  const editCategory = async(req,res,next) => {
     try {
         const id = req.query.id;
         const catDATA = await category.findById({_id:id});
         const adminData = await User.findById({ _id: req.session.Auser_id });
         res.render('editCategory',{category:catDATA , admin:adminData})
     } catch (error) {
-        console.log(error.message);
+      next(error)
         
     }
   }
@@ -103,7 +103,7 @@ const editSaveCategory = async (req, res,next) => {
   };
 
 //===============DELETE THE CATEGORY================//
-const deletecategory = async (req,res)=>{
+const deletecategory = async (req,res,next)=>{
     try {
        const id = req.query.id   
       
@@ -111,7 +111,7 @@ const deletecategory = async (req,res)=>{
        res.redirect('/admin/categoryList')
     }
      catch (error) {
-        console.log(error.message);
+      next(error)
     }
 }
 

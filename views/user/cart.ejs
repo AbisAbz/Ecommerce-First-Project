@@ -97,7 +97,7 @@ input.btpos {
                                               <td class="quantity-col">
                                                   <div class="cart-product-quantity">
                                                       <input type="button" onclick="changeQuantity('<%=userId%>','<%=products.productId._id%>',-1)" class="btneg " value="-">
-                                                      <input class="qun" type="text"  name="noq1" id="noq1"  value="<%= products.count %>">
+                                                      <input class="qun" type="text"  name="noq1" id="noq1"  value="<%= products.count %>" disabled>
                                                       <input type="button" onclick="changeQuantity('<%=userId%>','<%=products.productId._id%>',1)" class="btpos " value="+">                                                                                                                  
                                                   </div><!-- End .cart-product-quantity -->
                                               </td>

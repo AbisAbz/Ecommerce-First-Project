@@ -39,7 +39,7 @@
                                     <div class="product product-7 text-center">
                                         <figure class="product-media">
                                             <span class="product-label label-new">New</span>
-                                            <a href="/singleProduct?id=<%= product._id %>">
+                                            <a href="/singleProduct/<%= product._id %>">
                                                 <img src="/adminAssets/adminImages/productImage/<%= product.image[0] %>" alt="Product image" class="product-image">
                                                 <img src="/adminAssets/adminImages/productImage/<%= product.image[1] %>" alt="Product image" class="product-image-hover">
                                             </a>
@@ -63,7 +63,6 @@
                                             <div class="product-cat">
                                                 <a href="#"><%= product.categoryName %></a>
                                             </div><!-- End .product-cat -->
-                                            <h3 class="product-title"><a href="/singleProduct?id=<%= product._id %>"><%= product.productName %></a></h3><!-- End .product-title -->
                                             <div class="product-price">
                                                 <% 
                                                     const discount = product.discountPercentage;
