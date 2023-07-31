@@ -309,7 +309,6 @@ const sortReportFilter = async (req, res, next) => {
   try {
     const adminData = await User.findById({ _id: req.session.Auser_id });
     var status = req.params.id;
-    console.log(status, "dxfcgh");
 
     const order = await Order.aggregate([
       { $unwind: "$products" },

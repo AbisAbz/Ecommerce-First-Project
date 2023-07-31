@@ -45,46 +45,55 @@ const loadProduct = async (req, res) => {
 
 
 //==============Saving The Product PAGE================//
-
-       const saveProduct = async (req, res) => {
-        try {
-          const images = [];
-          if (req.files && req.files.length > 0) {
-            for (let i = 0; i < req.files.length; i++) {
+const saveProduct = async (req, res) => {
+  try {
+      const images = [];
+      if (req.files && req.files.length > 0) {
+          for (let i = 0; i < req.files.length; i++) {
               images.push(req.files[i].filename);
-               await Sharp('./public/adminAssets/adminImages/' +req.files[i].filename)  // added await to ensure image is resized before uploading
-        .resize(800, 800)
-        .toFile(
-          "./public/adminAssets/adminImages/productImage/" + req.files[i].filename
-        );
-            }
+              await Sharp('./public/adminAssets/adminImages/' + req.files[i].filename)
+                  .resize(800, 800)
+                  .toFile(
+                      "./public/adminAssets/adminImages/productImage/" + req.files[i].filename
+                  );
           }
-      
-          const product = new Product({
-            productName: req.body.productName.trim(),
-            stock: req.body.stock.trim(),
-            price: req.body.price.trim(),
-            categoryName: req.body.categoryname,
-            description: req.body.description,
-            brand: req.body.brand,
-            image: images, // Updated property name
-            discountName: null,
-            discountPercentage: 0,
-            expiryDate: null,
-          });
-      
-          const productData = await product.save();
-          if (productData) {
-            return res.redirect("/admin/productList");
-          } else {
-            return res.redirect("/admin/productList");
-          }
-        } catch (error) {
-          console.log(error.message);
-          // Handle the error and send an appropriate response
-          res.status(500).json({ error: "An error occurred while saving the product" });
-        }
       }
+
+      // Check if stock and price are valid numbers
+      const stock = parseInt(req.body.stock.trim(), 10);
+      const price = parseFloat(req.body.price.trim());
+
+      if (isNaN(stock) || isNaN(price) || stock < 0 || price <= 0) {
+          // If stock or price is not a valid number, or if they are negative or zero, send an error response
+          return res.status(400).json({ error: "Invalid stock or price value" });
+      }
+
+      const product = new Product({
+          productName: req.body.productName.trim(),
+          stock: stock,
+          price: price,
+          categoryName: req.body.categoryname,
+          description: req.body.description,
+          brand: req.body.brand,
+          image: images,
+          discountName: null,
+          discountPercentage: 0,
+          expiryDate: null,
+      });
+
+      const productData = await product.save();
+      if (productData) {
+          return res.redirect("/admin/productList");
+      } else {
+          return res.redirect("/admin/productList");
+      }
+  } catch (error) {
+      console.log(error.message);
+      // Handle the error and send an appropriate response
+      res.status(500).json({ error: "An error occurred while saving the product" });
+  }
+};
+
 
 
 //================DELETE THE PRODUCT===============//
