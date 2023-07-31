@@ -48,6 +48,7 @@ app.use('/admin', adminRoutes);
 
 //====================PORT==========================//
 app.use((err,req, res, next) => {
+  console.log(err);
   res.render('404Page');
  res.end();
 })

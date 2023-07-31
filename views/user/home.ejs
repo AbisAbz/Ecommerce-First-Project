@@ -284,12 +284,19 @@
               
                       <div class="product-body">
                         <div class="product-cat">
-                          <a href="#">Clothing</a>
+                          <% if (products[i].categoryName) { %>
+                            <a href="#"><%= products[i].categoryName %></a>
+                          <% } else { %>
+                            <a href="#">Default Category</a> <!-- Or display a default category name -->
+                          <% } %>
                         </div><!-- End .product-cat -->
-                        <h3 class="product-title"><a href="product.html">Tie-detail top</a></h3><!-- End .product-title -->
                         <div class="product-price">
-                          <span class="new-price">Now $3.99</span>
-                          <span class="old-price">Was $6.99</span>
+                        
+                          <% if (products[i].price) { %>
+                            <span class="old-price"><%= products[i].price %></span>
+                          <% } else { %>
+                            <span class="old-price">N/A</span> <!-- Or display a default value for price not available -->
+                          <% } %>
                         </div><!-- End .product-price -->
                       </div><!-- End .product-body -->
                     </div><!-- End .product -->

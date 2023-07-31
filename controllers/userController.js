@@ -287,6 +287,7 @@ const loadShop = async (req, res, next) => {
       const session = req.session.user_id;
       const id = req.params.id
       const product = await products.findOne({_id:id});
+      console.log(product);
       const userData = await User.findById(req.session.user_id)
       res.render("singleProduct",{product,user:userData,session});
     } catch (error) {

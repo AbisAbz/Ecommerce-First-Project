@@ -9,6 +9,7 @@ const cartController = require('../controllers/userCartControll')
 const addressController =require('../controllers/addressController')
 const orderController = require('../controllers/orderController')
 const couponController = require('../controllers/coupenControll')
+const wishlistController = require('../controllers/wishlistController')
 
 
 userRoute.set('view engine','ejs')
@@ -58,7 +59,10 @@ userRoute.post('/checkout',orderController.placeOrder)
 userRoute.post('/verifyPayment',orderController.verifyPayment)
 userRoute.post('/apply-coupon',couponController.applyCoupen)
 
-
+// ---------------- WISHLIST ROUTES --------------------//
+userRoute.get('/wishlist',auth.isLogin,wishlistController.loadWishlist)
+userRoute.post('/addtoWishlist',wishlistController.addToWishlist)
+userRoute.get('/deleteSingleWishlist/:id',auth.isLogin,wishlistController.deleteSingleWishlist)
 
 
 

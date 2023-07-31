@@ -266,7 +266,6 @@ const changeProductCount = async (req, res, next) => {
     res.json({ success: true });
   } catch (error) {
     next(error);
-    res.status(500).json({ success: false, error: error.message });
   }
 };
 //===================== DELETE CART ================= //
@@ -287,7 +286,6 @@ const deletecart = async (req, res,next) => {
     res.json({ success: true });
   } catch (error) {
     next(error)
-    res.status(500).json({ success: false, error: error.message });
   }
 };
 
