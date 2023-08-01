@@ -90,7 +90,6 @@ const loadDashboard = async (req, res, next) => {
 
     if (totalSales.length > 0) {
       totalAmount += totalSales[0].totalAmount;
-      console.log("Total amount of delivered orders:", totalAmount);
     } else {
       console.log("No delivered orders found.");
     }

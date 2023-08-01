@@ -176,15 +176,26 @@ const deleteimage = async(req,res,next)=>{
 
 //============UPDATING PRODUCT IMAGE=========//
 const updateimage = async (req, res, next) => {
+  
   try {
     const id = req.params.id;
     const productData = await Product.findOne({ _id: id })
-    productData.image.push(req.file.filename);
+
+    if (req.files && req.files.length > 0) {
+      for (let i = 0; i < req.files.length; i++) {
+        productData.image.push(req.files[i].filename);
+          await Sharp('./public/adminAssets/adminImages/' + req.files[i].filename)
+              .resize(800, 800)
+              .toFile(
+                  "./public/adminAssets/adminImages/productImage/" + req.files[i].filename
+              );
+      }
+  }
+
+
+
     await productData.save();
-    await Sharp('./public/adminAssets/adminImages/' +req.file.filename)  // added await to ensure image is resized before uploading
-    .resize(800, 800)
-    .toFile(
-      "./public/adminAssets/adminImages/productImage/" + req.file.filename)
+   
     res.redirect('/admin/editProduct/'+id)
      
   } catch (err) {

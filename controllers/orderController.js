@@ -123,11 +123,9 @@ const loaduserOrder = async(req,res) => {
 const loadOrderDetails = async (req, res,next) => {
   try {
     const id = req.params.id;
-    console.log(id);
     const session = req.session.user_id;
     const userData = await User.findById(session);
     const orderData = await Order.findOne({_id:id}).populate("products.productId")
-   console.log(orderData);
     res.render("orderDetails", { user: userData, orders: orderData, session });
   } catch (error) {
     next(error)
@@ -225,7 +223,6 @@ const loadOrderManagement = async (req, res,next) => {
 const loadSingleDetails = async (req, res,next) => {
   try {
     const id = req.params.id;
-    console.log(id);
     const adminData = await User.findById(req.session.Auser_id);
     const orderData = await Order.findOne({ _id: id }).populate(
       "products.productId" // Update path to 'productId'

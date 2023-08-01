@@ -46,8 +46,7 @@ adminRoute.get('/delete-product',auth.isLogin,productController.deleteProduct)
 adminRoute.get('/editProduct/:id', auth.isLogin, productController.loadEditProduct);
 adminRoute.post('/productList/:id',upload.upload.array("images", 10),productController.updateProduct);
 adminRoute.get('/deleteimg/:imgid/:prodid',auth.isLogin,productController.deleteimage);
-adminRoute.post("/admin/productList/:id",upload.upload.array("images", 10),productController.updateimage);
-adminRoute.post('/editImage/:id',upload.upload.single('file'),productController.updateimage)
+adminRoute.post('/editimage/:id',upload.upload.array('file',10),productController.updateimage)
 adminRoute.post('/addOffer',productController.addOffer);
 
 //====================================ORDER-DETAILS=====================================//
