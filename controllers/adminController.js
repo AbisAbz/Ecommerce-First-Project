@@ -166,6 +166,94 @@ const loadDashboard = async (req, res, next) => {
       console.log("No wallet orders found.");
     }
 
+    const currentDate = new Date();
+    const lastYear = new Date(currentDate.getTime() - 365 * 24 * 60 * 60 * 1000);
+    const lastsecYear = new Date(lastYear.getTime() - 365 * 24 * 60 * 60 * 1000);
+    const lastthirdYear = new Date(lastsecYear.getTime() - 365 * 24 * 60 * 60 * 1000);
+    
+    
+  //last year
+    const curr = await Order.aggregate([
+      { $unwind: "$products" },
+      {
+        $match: {
+          "products.status": "Delivered",
+          $and: [
+            { date: { $gt: lastYear } },
+            { date: { $lt: currentDate } },
+          ],
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalyearAmount: { $sum: "$products.totalPrice" },
+        },
+      },
+    ]);
+    let lastYeartotal = 0;
+    if (curr.length > 0) {
+      lastYeartotal = curr[0].totalyearAmount;
+    } else {
+      console.log("No online orders found.");
+    }
+
+
+
+  //last second year
+    const currr = await Order.aggregate([
+      { $unwind: "$products" },
+      {
+        $match: {
+          "products.status": "Delivered",
+          $and: [
+            { date: { $gt: lastsecYear } },
+            { date: { $lt: lastYear } },
+          ],
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalyearAmount: { $sum: "$products.totalPrice" },
+        },
+      },
+    ]);
+    let lastsecYeartotal = 0;
+    if (currr.length > 0) {
+      lastsecYeartotal = currr[0].totalyearAmount;
+    } else {
+      console.log("No online orders found.");
+    }
+    console.log(lastsecYeartotal);
+
+
+  //last third year
+    const currrr = await Order.aggregate([
+      { $unwind: "$products" },
+      {
+        $match: {
+          "products.status": "Delivered",
+          $and: [
+            { date: { $gt: lastthirdYear } },
+            { date: { $lt: lastsecYear } },
+          ],
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalyearAmount: { $sum: "$products.totalPrice" },
+        },
+      },
+    ]);
+    let lastthirdYeartotal = 0;
+    if (currrr.length > 0) {
+      lastthirdYeartotal = currrr[0].totalyearAmount;
+    } else {
+      console.log("No online orders found.");
+    }
+    console.log(lastthirdYeartotal);
     res.render("dashboard", {
       admin: adminData,
       product: productData,
@@ -175,6 +263,14 @@ const loadDashboard = async (req, res, next) => {
       totalCod,
       totalWallet,
       totalOnline,
+      lastYeartotal,
+      currentDate,
+      lastsecYeartotal,
+      lastYear,
+      lastsecYear,
+      lastthirdYeartotal
+
+
     });
   } catch (error) {
     next(error);
